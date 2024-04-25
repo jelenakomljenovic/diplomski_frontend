@@ -1,0 +1,38 @@
+.image {
+    position: relative;
+}
+.overlay{
+    width:100%;
+    height:100%;
+    visibility: hidden;
+    position:absolute;
+    top:0;
+    left:0;
+    background-color:white;
+    opacity:0;
+}
+.image .delete {
+    background-color: #3696ab;
+    color: white;
+    visibility: hidden;
+    cursor: pointer;
+    position: absolute;
+    top: 40%;
+    left: 40%;
+    border-radius: 50%;
+    padding: 10px;
+    opacity: 0;
+}
+.image .zoom {
+    left: 60%;
+}
+.image:hover .approve, .image:hover .delete, .image:hover .zoom {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.5s ease-in;
+}
+.image:hover .overlay {
+    visibility: visible;
+    opacity: 0.5;
+    transition: opacity 0.5s ease-in-out;
+}

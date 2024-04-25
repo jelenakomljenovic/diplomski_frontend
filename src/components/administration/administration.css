@@ -1,0 +1,16 @@
+.header-style {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    maxWidth: 80%;
+    margin-bottom: 10px;
+}
+
+.administrationTitle {
+    font-size: 16px;
+    color: rgba(0,0,0,0.57);
+    font-weight: bold;
+    margin-top: 1%;
+    font-family: openSans;
+    margin-bottom: 4px;
+}

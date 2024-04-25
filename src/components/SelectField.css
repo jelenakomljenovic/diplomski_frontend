@@ -1,0 +1,12 @@
+.select-field-margin-y {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.delete {
+  margin-right: 50%;
+}
+
+.deleteIcon {
+  color: rgba(116, 4, 4, 0.75);
+}

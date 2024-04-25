@@ -1,0 +1,40 @@
+.title {
+    min-width: 210px;
+    color: rgba(59, 53, 53, 0.87);
+    font-weight: 550;
+    font-size: 26px;
+    margin-top: 0px;
+}
+
+.dialog-content {
+    display: flex;
+    flex-direction: column;
+    top: 10px;
+    min-width: 360px;
+    min-height: 230px;
+}
+
+.text-field {
+    top: 5px;
+    width: 322px;
+    padding: 3px;
+}
+
+.text-field-div {
+    position: relative;
+    margin-top: 15px;
+    min-width: 120px;
+}
+
+.add-department-dialog-content-text {
+    padding-top: 10px;
+    padding-bottom: 13px;
+}
+
+.dialog {
+    display: flex;
+    flex-direction: row;
+    margin-left: 5px;
+    width: 97%;
+}
+
