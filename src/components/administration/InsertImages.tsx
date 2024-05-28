@@ -2,7 +2,7 @@ import * as React from 'react';
 import {useEffect, useState} from 'react';
 import {createStyles, makeStyles} from "@mui/styles";
 import {Image} from "../../api/image/imageType";
-import {Box, Container, IconButton, ImageList, ImageListItem, Pagination, Theme} from "@mui/material";
+import {Container, Divider, IconButton, ImageList, ImageListItem, Pagination, Theme} from "@mui/material";
 import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
         input: {display: "none"},
         upload: {
             width: "13rem",
+            minHeight: "91%",
             height: "91%",
             display: "flex",
             alignItems: "center",
@@ -90,6 +91,15 @@ export default function InsertImages({
     const indexOfFirstImage = indexOfLastImage - imagesPerPage;
     const currentImages = gallery.slice(indexOfFirstImage, indexOfLastImage);
 
+
+    const lightboxStyles = {
+        position: 'fixed' as 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: 10000,
+    };
 
     const toggleOpen = () => {
         setModalOpen((modalOpen) => !modalOpen);
@@ -186,14 +196,36 @@ export default function InsertImages({
     };
 
     return (
-        <Box style={{
-            backgroundColor: "rgb(255,255,255)",
-            width: "100%",
-            minHeight: "89.1vh",
-            height: "auto",
-            marginTop: "-1%"
+        <div style={{
+            backgroundColor: "white",
+            height: "72vh",
+            width: "91%",
+            boxShadow: "5px 5px 20px 3px rgba(0,0,0,.08)",
+            marginLeft: "5.2%",
+            marginTop: "3%",
         }}>
-            <Container maxWidth="lg" style={{paddingTop: "5%"}}>
+            <div>
+                <p style={{
+                    fontSize: 15,
+                    color: "#3696ab",
+                    fontWeight: "bold",
+                    marginLeft: "1%",
+                    fontFamily: "openSans"
+                }}>Dodaj fotografije</p>
+            </div>
+            <Divider style={{
+                backgroundColor: "rgba(84,90,109,0.13)",
+                width: "100%",
+                height: "0.1vh"
+            }}/>
+            {/*<Box style={{*/}
+            {/*    backgroundColor: "rgb(255,255,255)",*/}
+            {/*    width: "100%",*/}
+            {/*    minHeight: "89.1vh",*/}
+            {/*    height: "auto",*/}
+            {/*    marginTop: "-1%"*/}
+            {/*}}>*/}
+            <Container maxWidth="lg" style={{paddingTop: "2%"}}>
                 <ImageList className={classes.imageList} cols={5} gap={10}>
                     {
                         page === 1 && (
@@ -208,7 +240,7 @@ export default function InsertImages({
                                 <label htmlFor="icon-button-photo">
                                     <div className={classes.upload}>
                                         <IconButton color="primary" component="span">
-                                            <AddPhotoAlternateRoundedIcon className={classes.addPhoto} />
+                                            <AddPhotoAlternateRoundedIcon className={classes.addPhoto}/>
                                         </IconButton>
                                     </div>
                                 </label>
@@ -272,15 +304,18 @@ export default function InsertImages({
                             onMoveNextRequest={() =>
                                 setCurrentIndex((currentIndex + 1) % gallery.length)
                             }
+                            reactModalStyle={{overlay: {...lightboxStyles}}}
                         />
                     )}
                 </ImageList>
                 <Pagination
+                    style={{marginTop: "10%", marginLeft: "90%"}}
                     count={pageCount}
                     page={page}
                     onChange={(event, value) => setPage(value)}
                 />
             </Container>
-        </Box>
+            {/*</Box>*/}
+        </div>
     );
 }

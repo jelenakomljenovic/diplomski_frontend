@@ -40,9 +40,10 @@ function StudentTermsSection() {
                 studenata, ali možda niste bili potpuno sigurni šta tačno znače.
                 Upravo iz tog razloga, pripremili smo vodič koji će vam pružiti jasna i jednostavna objašnjenja,
                 te omogućiti lakše snalaženje.</Typography>
-            <div style={{display: "flex", gap: "2%", justifyContent: "center", paddingTop: "3%"}}>
+            <div style={{display: "flex", flexWrap: "wrap", gap: "2%", justifyContent: "center", paddingTop: "3%"}}>
                 <div style={{
                     width: "18%",
+                    minWidth: "300px",
                     minHeight: "165px",
                     height: "auto",
                     backgroundColor: freshmanEntered ? "rgba(19,157,112,0.75)" : "#effffb",
@@ -50,7 +51,10 @@ function StudentTermsSection() {
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "center",
-                    alignItems: "center"
+                    alignItems: "center",
+                    transform: freshmanEntered ? 'scale(1.09)' : 'none',
+                    transition: 'transform 0.3s ease-in-out',
+                    marginBottom: "2%"
                 }}
                      onMouseEnter={() => setFreshmanEntered(true)}
                      onMouseLeave={() => setFreshmanEntered(false)}
@@ -71,12 +75,12 @@ function StudentTermsSection() {
                         fontFamily: "openSans",
                         textAlign: "center"
                     }}>
-                        Termin koji se koristi za označavanje osobe koja je upravo upisala fakultet i
-                        započela svoju prvu godinu studija.
+                        Termin koji se koristi za označavanje osobe koja je upravo upisala fakultet i započela svoju prvu godinu studija.
                     </Typography>
                 </div>
                 <div style={{
                     width: "18%",
+                    minWidth: "300px",
                     minHeight: "165px",
                     height: "auto",
                     backgroundColor: bachelorEntered ? "rgba(19,157,112,0.75)" : "#effffb",
@@ -84,7 +88,10 @@ function StudentTermsSection() {
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "center",
-                    alignItems: "center"
+                    alignItems: "center",
+                    transform: bachelorEntered ? 'scale(1.09)' : 'none',
+                    transition: 'transform 0.3s ease-in-out',
+                    marginBottom: "2%"
                 }}
                      onMouseEnter={() => setBachelorEntered(true)}
                      onMouseLeave={() => setBachelorEntered(false)}
@@ -106,12 +113,12 @@ function StudentTermsSection() {
                         fontFamily: "openSans",
                         textAlign: "center"
                     }}>
-                        Akademski naziv kojim se označava stepen obrazovanja koji se stiče završetkom prvog
-                        ciklusa studija.
+                        Akademski naziv kojim se označava stepen obrazovanja koji se stiče završetkom prvog ciklusa studija.
                     </Typography>
                 </div>
                 <div style={{
                     width: "18%",
+                    minWidth: "300px",
                     minHeight: "165px",
                     height: "auto",
                     backgroundColor: semesterEntered ? "rgba(19,157,112,0.75)" : "#effffb",
@@ -119,7 +126,10 @@ function StudentTermsSection() {
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "center",
-                    alignItems: "center"
+                    alignItems: "center",
+                    transform: semesterEntered ? 'scale(1.09)' : 'none',
+                    transition: 'transform 0.3s ease-in-out',
+                    marginBottom: "2%"
                 }} onMouseEnter={() => setSemesterEntered(true)}
                      onMouseLeave={() => setSemesterEntered(false)}
                 >
@@ -140,12 +150,12 @@ function StudentTermsSection() {
                         fontFamily: "openSans",
                         textAlign: "center"
                     }}>
-                        Semestar je period u akademskoj godini, podijeljen na zimski i ljetni dio, što je
-                        analogno polugodištu u osnovnim i srednjim školama.
+                        Semestar je period u akademskoj godini, podijeljen na zimski i ljetni dio, što je analogno polugodištu u osnovnim i srednjim školama.
                     </Typography>
                 </div>
                 <div style={{
                     width: "18%",
+                    minWidth: "300px",
                     minHeight: "165px",
                     height: "auto",
                     backgroundColor: transcriptEntered ? "rgba(19,157,112,0.75)" : "#effffb",
@@ -153,7 +163,10 @@ function StudentTermsSection() {
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "center",
-                    alignItems: "center"
+                    alignItems: "center",
+                    transform: transcriptEntered ? 'scale(1.09)' : 'none',
+                    transition: 'transform 0.3s ease-in-out',
+                    marginBottom: "2%"
                 }}
                      onMouseEnter={() => setTranscriptEntered(true)}
                      onMouseLeave={() => setTranscriptEntered(false)}
@@ -176,13 +189,11 @@ function StudentTermsSection() {
                         textAlign: "center"
                     }}>
                         Službena studentska knjižica koja služi za evidentiranje ocjena koje su dobijene na završnim ispitima.
-
                     </Typography>
                 </div>
-            </div>
-            <div style={{display: "flex", gap: "2%", justifyContent: "center", paddingTop: "3%"}}>
                 <div style={{
                     width: "18%",
+                    minWidth: "300px",
                     minHeight: "165px",
                     height: "auto",
                     backgroundColor: lectureEntered ? "rgba(19,157,112,0.75)" : "#effffb",
@@ -190,7 +201,10 @@ function StudentTermsSection() {
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "center",
-                    alignItems: "center"
+                    alignItems: "center",
+                    transform: lectureEntered ? 'scale(1.09)' : 'none',
+                    transition: 'transform 0.3s ease-in-out',
+                    marginBottom: "2%"
                 }}
                      onMouseEnter={() => setLectureEntered(true)}
                      onMouseLeave={() => setLectureEntered(false)}
@@ -218,6 +232,7 @@ function StudentTermsSection() {
                 </div>
                 <div style={{
                     width: "18%",
+                    minWidth: "300px",
                     minHeight: "165px",
                     height: "auto",
                     backgroundColor: colloquiumEntered ? "rgba(19,157,112,0.75)" : "#effffb",
@@ -225,7 +240,10 @@ function StudentTermsSection() {
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "center",
-                    alignItems: "center"
+                    alignItems: "center",
+                    transform: colloquiumEntered ? 'scale(1.09)' : 'none',
+                    transition: 'transform 0.3s ease-in-out',
+                    marginBottom: "2%"
                 }}
                      onMouseEnter={() => setColloquiumEntered(true)}
                      onMouseLeave={() => setColloquiumEntered(false)}
@@ -252,6 +270,7 @@ function StudentTermsSection() {
                 </div>
                 <div style={{
                     width: "18%",
+                    minWidth: "300px",
                     minHeight: "165px",
                     height: "auto",
                     backgroundColor: examEntered ? "rgba(19,157,112,0.75)" : "#effffb",
@@ -259,7 +278,10 @@ function StudentTermsSection() {
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "center",
-                    alignItems: "center"
+                    alignItems: "center",
+                    transform: examEntered ? 'scale(1.09)' : 'none',
+                    transition: 'transform 0.3s ease-in-out',
+                    marginBottom: "2%"
                 }}
                      onMouseEnter={() => setExamEntered(true)}
                      onMouseLeave={() => setExamEntered(false)}
@@ -286,6 +308,7 @@ function StudentTermsSection() {
                 </div>
                 <div style={{
                     width: "18%",
+                    minWidth: "300px",
                     minHeight: "165px",
                     height: "auto",
                     backgroundColor: ectsEntered ? "rgba(19,157,112,0.75)" : "#effffb",
@@ -293,7 +316,10 @@ function StudentTermsSection() {
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "center",
-                    alignItems: "center"
+                    alignItems: "center",
+                    transform: ectsEntered ? 'scale(1.09)' : 'none',
+                    transition: 'transform 0.3s ease-in-out',
+                    marginBottom: "2%"
                 }}
                      onMouseEnter={() => setEctsEntered(true)}
                      onMouseLeave={() => setEctsEntered(false)}

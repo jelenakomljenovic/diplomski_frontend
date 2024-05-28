@@ -212,7 +212,7 @@ function Faculty() {
     }
 
     return (
-        <div style={{paddingLeft: "35px", width: "100%"}}>
+        <div style={{ width: "100%"}}>
             <p style={{
                 fontSize: 17,
                 color: "rgba(55,79,121,0.88)",

@@ -4,10 +4,8 @@ import {SyntheticEvent, useEffect, useState} from 'react';
 import {CreateFacultyRequest} from "../api/faculty/faculty";
 import {getAllFaculties} from "../api/faculty/facultyApi";
 import useStyles from './../styles';
-import {Combobox, ComboboxInput, ComboboxList, ComboboxOption, ComboboxPopover} from "@reach/combobox";
 import {GoogleMap, InfoWindowF, MarkerClustererF, MarkerF, useJsApiLoader} from "@react-google-maps/api";
 import mapStyles from '../styles/mapStyles';
-import usePlacesAutocomplete, {getGeocode, getLatLng} from 'use-places-autocomplete';
 import {AutocompleteComponent} from "./AutocompleteComponent";
 import {AutocompleteValue} from "@mui/material";
 import ReactImageLightbox from 'react-image-lightbox';
@@ -31,55 +29,6 @@ const options = {
     zoomControl: true,
     mapTypeControl: false,
     streetViewControl: false,
-}
-
-// @ts-ignore
-function Search({panTo}) {
-    const {
-        ready,
-        value,
-        suggestions: {status, data},
-        setValue,
-        clearSuggestions,
-    } = usePlacesAutocomplete();
-
-
-    const handleInput = (e: any) => {
-        setValue(e.target.value);
-    };
-
-    const handleSelect = async (address: any) => {
-        setValue(address, false);
-        clearSuggestions();
-
-        try {
-            const results = await getGeocode({address});
-            const {lat, lng} = await getLatLng(results[0]);
-            panTo({lat, lng});
-        } catch (error) {
-            console.log("😱 Error: ", error);
-        }
-    };
-
-    return (
-        <div className="search">
-            <Combobox onSelect={handleSelect}>
-                <ComboboxInput
-                    value={value}
-                    onChange={handleInput}
-                    placeholder="Search your location"
-                />
-                <ComboboxPopover>
-                    <ComboboxList>
-                        {status === "OK" &&
-                            data.map(({place_id, description}) => (
-                                <ComboboxOption key={place_id} value={description}/>
-                            ))}
-                    </ComboboxList>
-                </ComboboxPopover>
-            </Combobox>
-        </div>
-    );
 }
 
 
@@ -132,6 +81,7 @@ function Map() {
                 lng: Number.parseFloat(value.coordinates.split(',')[1])
             });
             setZoom(21);
+            setSelectedFaculty(value);
         } else {
             setCoordinates();
             setZoom(14);
@@ -208,7 +158,7 @@ function Map() {
                         lat: Number.parseFloat(selectedFaculty.coordinates.split(',')[0]),
                         lng: Number.parseFloat(selectedFaculty.coordinates.split(',')[1])
                     }} onCloseClick={() => setSelectedFaculty(null)}>
-                        <div>
+                        <div style={{textAlign: "center", marginTop: "-3%"}}>
                             <Link to={`/details/${selectedFaculty.id}`}
                                   style={{textDecoration: 'none', color: "rgba(55,79,121,0.88)", paddingTop: "-0.5"}}>
                                 <h4>{selectedFaculty.name}</h4>
@@ -233,19 +183,21 @@ function Map() {
                             onMoveNextRequest={() =>
                                 setCurrentImageIndex((currentImageIndex + 1) % imagesArray.length)
                             }
-                            reactModalStyle={{ overlay: { ...lightboxStyles } }}
+                            reactModalStyle={{overlay: {...lightboxStyles}}}
                         />
                     )}
 
                 </GoogleMap>
                 : null
             }
-            <div style={{ position: "absolute",
+            <div style={{
+                position: "absolute",
                 top: 18,
                 right: 75,
                 width: 322,
                 height: "20%",
-                zIndex: 100}}>
+                zIndex: 100
+            }}>
                 <AutocompleteComponent label={"Pogledaj sve"} options={faculties} property={"name"} style={{
                     width: 322,
                     backgroundColor: "white"

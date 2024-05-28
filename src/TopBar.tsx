@@ -97,7 +97,7 @@ export function TopBar() {
                     <Toolbar>
                         <MenuList style={{marginBottom: "0.6%", marginLeft: "2%", display: "flex"}}>
                             <ListItemButton className={classes.nested}
-                                            style={{paddingLeft: 24, backgroundColor: "white"}}
+                                            style={{paddingLeft: 24, backgroundColor: "transparent"}}
                                             onClick={() => navigate(paths.HOME)}>
                                 <ListItemText disableTypography sx={{
                                     color: "rgba(32,64,102,0.79)",
@@ -109,7 +109,7 @@ export function TopBar() {
                             </ListItemButton>
                             <ListItemButton className={classes.nested}
                                             aria-owns={anchorEl ? "simple-menu" : undefined}
-                                            style={{paddingLeft: 24, backgroundColor: "white"}}
+                                            style={{paddingLeft: 24, backgroundColor: "transparent"}}
                                             onClick={() => navigate(paths.FACULTIES)}
                                             aria-haspopup="true">
                                 <ListItemText disableTypography style={{
@@ -128,7 +128,7 @@ export function TopBar() {
                             </ListItemButton>
                             <ListItemButton className={classes.nested}
                                             aria-owns={anchorEl ? "simple-menu" : undefined}
-                                            style={{paddingLeft: 24, backgroundColor: "white"}}
+                                            style={{paddingLeft: 24, backgroundColor: "transparent"}}
                                             onClick={() => navigate(paths.LOCATIONS)}
                                             aria-haspopup="true">
                                 <ListItemText disableTypography style={{

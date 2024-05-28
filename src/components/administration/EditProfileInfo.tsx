@@ -7,7 +7,7 @@ import {UpdateUserType} from "../../api/users/userType";
 import {findUserById, updateUser} from "../../api/users/users";
 import {useNavigate} from "react-router-dom";
 import {paths} from "../../constants/urlConstants";
-import {generatePassword, isValidEmail} from "../../token/password";
+import {isValidEmail} from "../../token/password";
 import {useSnackbarHelper} from "../../util/toastUtil";
 
 function EditProfileInfo() {
@@ -48,7 +48,7 @@ function EditProfileInfo() {
                     horizontal: "right"
                 }, "Korisničko ime mora sadržati minimalno 5 karaktera!")();
             } else {
-                if (user?.firstName  && user?.lastName && user?.username) {
+                if (user?.firstName && user?.lastName && user?.username) {
                     try {
                         await updateUser({
                             username: user?.username,

@@ -36,9 +36,10 @@ function FacultyTipsSection() {
                 Upravo iz tog razloga, informisanost igra ključnu ulogu.
                 Da biste se adekvatno pripremili za sam proces upisa, korisno je obratiti pažnju na
                 sljedeće:</Typography>
-            <div style={{display: "flex", gap: "3%", justifyContent: "center", paddingTop: "3%"}}>
+            <div style={{display: "flex", flexWrap: "wrap", gap: "3%", justifyContent: "center", paddingTop: "3%"}}>
                 <div style={{
                     width: "21%",
+                    minWidth: "300px",
                     minHeight: "365px",
                     height: "auto",
                     backgroundColor: "transparent",
@@ -47,7 +48,9 @@ function FacultyTipsSection() {
                     flexDirection: "column",
                     justifyContent: "center",
                     alignItems: "center",
-                    marginTop: firstMouseClick ? "-7px" : "0px"
+                    transform: firstMouseClick ? "scale(1.02)" : "scale(1)",
+                    transition: "transform 0.3s ease",
+                    marginBottom: "2%" // Add marginBottom to create space when stacked
                 }}
                      onMouseEnter={() => setFirstMouseClick(true)}
                      onMouseLeave={() => setFirstMouseClick(false)}>
@@ -82,16 +85,15 @@ function FacultyTipsSection() {
                         fontFamily: "openSans",
                         textAlign: "center"
                     }}>
-                        Kako biste donijeli
-                        odluku koja je u skladu sa vašim interesovanjima i poslovnim ambicijama, najvažnije je
+                        Kako biste donijeli odluku koja je u skladu sa vašim interesovanjima i poslovnim ambicijama, najvažnije je
                         dobro se informisati o studijskom planu i programu svakog fakulteta.
-                        Takođe, dobro je uzeti u obzir i alternativnu opciju, ukoliko se desi da ne ispunite
-                        kriterijume
+                        Takođe, dobro je uzeti u obzir i alternativnu opciju, ukoliko se desi da ne ispunite kriterijume
                         za upis na željeni fakultet.
                     </Typography>
                 </div>
                 <div style={{
                     width: "21%",
+                    minWidth: "300px",
                     minHeight: "365px",
                     height: "auto",
                     backgroundColor: "transparent",
@@ -100,7 +102,9 @@ function FacultyTipsSection() {
                     flexDirection: "column",
                     justifyContent: "center",
                     alignItems: "center",
-                    marginTop: secondMouseClick ? "-7px" : "0px"
+                    transform: secondMouseClick ? "scale(1.02)" : "scale(1)",
+                    transition: "transform 0.3s ease",
+                    marginBottom: "2%" // Add marginBottom to create space when stacked
                 }}
                      onMouseEnter={() => setSecondMouseClick(true)}
                      onMouseLeave={() => setSecondMouseClick(false)}>
@@ -138,15 +142,16 @@ function FacultyTipsSection() {
                     }}>
                         Prijemni ispit igra ključnu ulogu u selekciji studenata i predstavlja mjerilo
                         sposobnosti kandidata u određenoj oblasti.
-                        Na svakom fakultetu postoji posebna literatura, koja se
-                        koristi za efikasnu pripremu prijemnog ispita,
-                        dok određeni fakulteti drže i pripremnu nastavu kako bi dodatno upoznali studente sa
-                        strukturom ispita.
+                        Na svakom fakultetu postoji posebna literatura, која се
+                        користи за ефикасну припрему пријемног испита,
+                        док одређени факултети држе и припремну наставу како би додатно упознали студенте са
+                        структуром испита.
 
                     </Typography>
                 </div>
                 <div style={{
                     width: "21%",
+                    minWidth: "300px",
                     minHeight: "365px",
                     height: "auto",
                     backgroundColor: "transparent",
@@ -155,7 +160,9 @@ function FacultyTipsSection() {
                     flexDirection: "column",
                     justifyContent: "center",
                     alignItems: "center",
-                    marginTop: thirdMouseClick ? "-7px" : "0px"
+                    transform: thirdMouseClick ? "scale(1.02)" : "scale(1)",
+                    transition: "transform 0.3s ease",
+                    marginBottom: "2%" // Add marginBottom to create space when stacked
                 }}
                      onMouseEnter={() => setThirdMouseClick(true)}
                      onMouseLeave={() => setThirdMouseClick(false)}>
@@ -194,8 +201,8 @@ function FacultyTipsSection() {
                         Školarina predstavlja dodatni faktor koji bi trebalo uzeti u obzir prilikom odabira
                         fakulteta.
                         Pažljivo istražite dostupne opcije finansijske podrške tokom studiranja poput:
-                        stipendija, mogućnosti za rad tokom studija kao i drugih načina podrške koji mogu
-                        značajno uticati na budžet i iskustvo tokom fakultetskog obrazovanja.
+                        stipendija, mogućnosti za rad tokom studija kao и drugih načina podrške који mogu
+                        značajno uticati na budžet и искуство током факултетског образовања.
                     </Typography>
                 </div>
             </div>
