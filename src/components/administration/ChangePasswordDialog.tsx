@@ -5,7 +5,8 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
-    InputLabel, Snackbar,
+    InputLabel,
+    Snackbar,
     TextField,
     Typography
 } from "@mui/material";
@@ -67,20 +68,35 @@ export function ChangePasswordDialog({
 
 
     const handleSaveButton = async () => {
-        if(passwordInfo.newPassword === passwordInfo.confirmationPassword){
-            if(validatePassword(passwordInfo.newPassword)){
-                const userId = getIdFromToken();
-                await changePassword(passwordInfo, userId);
-                setOpenChangePasswordDialog(false);
-                resetValues();
-                handleClickVariant('success', {vertical: "top", horizontal: "right"}, "Lozinka je uspješno promijenjena!")();
+        if (passwordInfo.currentPassword === "" || passwordInfo.newPassword === "" || passwordInfo.confirmationPassword === "") {
+            handleClickVariant('error', {vertical: "top", horizontal: "right"}, "Popuni sva polja!")();
+        } else {
+            if (passwordInfo.newPassword === passwordInfo.confirmationPassword) {
+                if (validatePassword(passwordInfo.newPassword)) {
+                    const userId = getIdFromToken();
+                    try {
+                        await changePassword(passwordInfo, userId);
+                        setOpenChangePasswordDialog(false);
+                        resetValues();
+                        handleClickVariant('success', {
+                            vertical: "top",
+                            horizontal: "right"
+                        }, "Lozinka je uspješno promijenjena!")();
+                    } catch (e) {
+                        handleClickVariant('error', {
+                            vertical: "top",
+                            horizontal: "right"
+                        }, "Unesite ispravnu trenutnu lozinku!")();
+                    }
+                } else {
+                    handleClickVariant('error', {
+                        vertical: "top",
+                        horizontal: "right"
+                    }, "Nova lozinka ne ispunjava pravila!")();
+                }
+            } else {
+                handleClickVariant('error', {vertical: "top", horizontal: "right"}, "Lozinke se ne podudaraju!")();
             }
-            else {
-                handleClickVariant('error', {vertical: "top", horizontal: "right"}, "Nova lozinka ne ispunjava pravila!")();
-            }
-        }
-        else {
-            handleClickVariant('error', {vertical: "top", horizontal: "right"}, "Lozinke nisu iste!")();
         }
     };
 
@@ -97,7 +113,7 @@ export function ChangePasswordDialog({
                 autoHideDuration={2000}
                 anchorOrigin={{vertical: 'top', horizontal: 'right'}}
                 onClose={handleCloseSnackbar}
-                style={{  whiteSpace: "pre-wrap"}}
+                style={{whiteSpace: "pre-wrap"}}
                 ContentProps={{
                     style: {
                         whiteSpace: 'pre-line',
@@ -125,11 +141,10 @@ export function ChangePasswordDialog({
                     <CloseIcon/>
                 </IconButton>
                 <DialogContent dividers>
-                    <div style={{ marginLeft: "2%"}}>
+                    <div style={{marginLeft: "2%"}}>
                         <Typography gutterBottom>
-                            Da biste uspješno promijenili lozinku, potrebno je da prvo potvrdite svoj identitet unosom
-                            trenutne
-                            lozinke.
+                            Nova lozinka mora sadržati
+                            najmanje 8 znakova, barem jedan broj, barem jedan specijalni karakter i barem jedno veliko slovo!
                         </Typography>
                         <div style={{display: "flex", flexDirection: "column", width: "91%", paddingTop: "2%"}}>
                             <InputLabel style={{color: "rgba(133,133,133,0.84)", fontSize: 14, fontWeight: "bold"}}>Trenutna
@@ -174,7 +189,7 @@ export function ChangePasswordDialog({
                                 />
                             </div>
                             <div style={{display: "flex", flexDirection: "column", width: "44%", paddingTop: "2%"}}>
-                                <InputLabel style={{color: "rgba(133,133,133,0.84)", fontSize: 14, fontWeight: "bold"}}>Potvrdite
+                                <InputLabel style={{color: "rgba(133,133,133,0.84)", fontSize: 14, fontWeight: "bold"}}>Potvrdi
                                     novu lozinku:
                                     *</InputLabel>
                                 <TextField

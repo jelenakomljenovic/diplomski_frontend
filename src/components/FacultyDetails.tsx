@@ -471,12 +471,12 @@ function FacultyDetails() {
             />
             <AlertDialog open={open} setOpen={setOpen} handleClickOpen={handleClickOpen} handleClose={handleCloseDialog}
                          handleSave={() => deleteDepartment(departmentIdForDelete)}
-                         dialogContent={"Da li ste sigurni da želite trajno obrisati studijski program " + departmentName + "?"}
+                         dialogContent={"Da li si siguran/na da želiš trajno obrisati studijski program " + departmentName + "?"}
                          dialogTitle={"Brisanje studijskog programa"}/>
             <AlertDialog open={openDeleteUni} setOpen={setOpenDeleteUni} handleClickOpen={handleClickOpenDeleteUni}
                          handleClose={handleCloseDialogDeleteUni}
                          handleSave={deleteUniversity}
-                         dialogContent={"Da li ste sigurni da želite trajno obrisati " + faculty?.name + "?"}
+                         dialogContent={"Da li si siguran/na da želiš trajno obrisati " + faculty?.name + "?"}
                          dialogTitle={"Brisanje fakulteta"}/>
             {isOpen && (
                 <ReactImageLightbox

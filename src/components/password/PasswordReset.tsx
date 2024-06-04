@@ -107,7 +107,7 @@ export function PasswordReset() {
                 }}>
                     <Typography style={{fontSize: 18, fontWeight: "bold"}}>Resetuj lozinku</Typography>
                     <Typography style={{marginTop: "8%", fontSize: 14, marginBottom: "5%"}}>Lozinka mora sadržati
-                        najmanje 8 znakova, barem 1 broj, barem jedan znak i barem jedno veliko slovo!</Typography>
+                        najmanje 8 znakova, barem 1 broj, barem jedan specijalni karakter i barem jedno veliko slovo!</Typography>
                     <form>
                         <TextField
                             label="Nova lozinka"

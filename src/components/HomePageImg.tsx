@@ -53,7 +53,7 @@ function HomePageImg() {
             fontSize: 31
         },
         description: {
-            fontSize: 16,
+            fontSize: 15,
             fontFamily: "roboto",
             color: "#6E6E6E",
             marginTop: "2%"

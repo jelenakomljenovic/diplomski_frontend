@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Box from "@mui/material/Box";
 import {ListItemIcon, Menu, Stack} from "@mui/material";
 import Typography from "@mui/material/Typography";
@@ -14,6 +14,8 @@ import {useAuth} from "../../login/AuthProvider";
 import {paths} from "../../constants/urlConstants";
 import KeyIcon from '@mui/icons-material/Key';
 import {ChangePasswordDialog} from "../administration/ChangePasswordDialog";
+import {getIdFromToken} from "../../token/token";
+import {findUserById} from "../../api/users/users";
 
 
 const paperProps = {
@@ -24,25 +26,30 @@ const paperProps = {
     },
 }
 
+type UserInfo = {
+    firstName: string,
+    lastName: string
+}
+
 export function AvatarButton() {
     const navigate = useNavigate();
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
     const {toggleAdmin} = useAuth();
     const [changePasswordDialog, setOpenChangePasswordDialog] = useState(false);
-    // const [user, setUser] = useState<UserInfo>();
+    const [user, setUser] = useState<UserInfo>();
 
-    // useEffect(() => {
-    //   const getUserInfo = async () => {
-    //     try {
-    //       const userId = getIdFromToken();
-    //       const response = await findUserById(userId);
-    //       setUser({username: response.data.username, firstName: response.data.firstName, lastName: response.data.lastName});
-    //     } catch (error: any) {
-    //       showErrorToast(`${i18next.t('errorMessages.find_user_by_id')}`);
-    //     }
-    //   }
-    //   getUserInfo();
-    // }, [setUser]);
+    useEffect(() => {
+      const getUserInfo = async () => {
+        try {
+          const userId = getIdFromToken();
+          const response = await findUserById(userId);
+          setUser({ firstName: response.data.firstName, lastName: response.data.lastName});
+        } catch (error: any) {
+          // showErrorToast(`${i18next.t('errorMessages.find_user_by_id')}`);
+        }
+      }
+      getUserInfo();
+    }, [setUser]);
 
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);
@@ -62,7 +69,7 @@ export function AvatarButton() {
             <Stack direction="row" alignItems={"center"}>
                 <Tooltip title="Podesavanja">
                     <IconButton onClick={handleOpenUserMenu}>
-                        <Avatar style={{backgroundColor: "#adc3c7"}}>JK</Avatar>
+                        <Avatar style={{backgroundColor: "#adc3c7"}}>{user?.firstName.charAt(0)}{user?.lastName.charAt(0)}</Avatar>
                     </IconButton>
                 </Tooltip>
             </Stack>
@@ -103,7 +110,7 @@ export function AvatarButton() {
                     <ListItemIcon>
                         <Logout fontSize="small"/>
                     </ListItemIcon>
-                    <Typography textAlign="center">Odjavite se</Typography>
+                    <Typography textAlign="center">Odjavi se</Typography>
                 </MenuItem>
             </Menu>
             <ChangePasswordDialog changePasswordDialog={changePasswordDialog}

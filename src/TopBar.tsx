@@ -62,26 +62,27 @@ export function TopBar() {
         <Box sx={{display: 'flex'}}>
             <CssBaseline/>
             <Slide appear={false} direction="down" in={!trigger}>
-                <AppBar component="nav"
-                        sx={{zIndex: (theme) => theme.zIndex.drawer + 1, backgroundColor: "#204066", maxHeight: 68, height: 68}}>
-                    <LoginDialog openPopup={addPopup}
-                                 setOpenPopup={setAddPopup}
-
-                    />
+                <AppBar
+                    component="nav"
+                    sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, backgroundColor: "#204066", maxHeight: 68, height: 68 }}
+                >
+                    <LoginDialog openPopup={addPopup} setOpenPopup={setAddPopup} />
                     <Toolbar>
-                        <div style={{marginLeft: "2.3%", display: "flex", alignItems: "centar", width: "100%"}}>
-                            <img src={logo} alt="logo" style={{width: "auto", height: "auto"}}/>
-                            <img src={textLogo} alt="textLogo"
-                                 style={{width: "140px", height: "40px", margin: "auto", marginLeft: -7, marginTop: "0.3%"}}/>
-                            {isAdmin &&
-                                <AvatarButton/>
-                            }
-                            {!isAdmin &&
-                                <LockIcon
-                                    style={{height: 25, width: 25, color: "#fff", marginTop: "16px", marginRight: "38px"
-                                }}
-                                    onClick={onLockIconClick}/>
-                            }
+                        <div style={{ display: "flex", alignItems: "center", width: "100%", justifyContent: "space-between" }}>
+                            <div style={{ display: "flex", alignItems: "center" }}>
+                                <img src={logo} alt="logo" style={{ width: "auto", height: "auto" }} />
+                                <img src={textLogo} alt="textLogo" style={{ width: "140px", height: "40px", marginLeft: -7, marginTop: "0.3%" }} />
+                            </div>
+                            <div style={{ display: "flex", alignItems: "center" }}>
+                                {isAdmin ? (
+                                    <AvatarButton />
+                                ) : (
+                                    <LockIcon
+                                        style={{ height: 25, width: 25, color: "#fff", cursor: "pointer" }}
+                                        onClick={onLockIconClick}
+                                    />
+                                )}
+                            </div>
                         </div>
                     </Toolbar>
                 </AppBar>
@@ -95,9 +96,9 @@ export function TopBar() {
                     boxShadow: "0 0 20px 3px rgba(0,0,0,.05)"
                 }} elevation={0}>
                     <Toolbar>
-                        <MenuList style={{marginBottom: "0.6%", marginLeft: "2%", display: "flex"}}>
+                        <MenuList style={{marginBottom: "0.6%", display: "flex"}}>
                             <ListItemButton className={classes.nested}
-                                            style={{paddingLeft: 24, backgroundColor: "transparent"}}
+                                            style={{ backgroundColor: "transparent"}}
                                             onClick={() => navigate(paths.HOME)}>
                                 <ListItemText disableTypography sx={{
                                     color: "rgba(32,64,102,0.79)",
@@ -109,7 +110,16 @@ export function TopBar() {
                             </ListItemButton>
                             <ListItemButton className={classes.nested}
                                             aria-owns={anchorEl ? "simple-menu" : undefined}
-                                            style={{paddingLeft: 24, backgroundColor: "transparent"}}
+                                            sx={{
+                                                width: "auto",
+                                                minWidth: "12%",
+                                                backgroundColor: "transparent",
+                                                whiteSpace: 'normal',
+                                                '@media (max-width: 900px)': {
+                                                    marginLeft: "-1%",
+                                                    marginRight: "1%",
+                                                }
+                                            }}
                                             onClick={() => navigate(paths.FACULTIES)}
                                             aria-haspopup="true">
                                 <ListItemText disableTypography style={{
@@ -149,59 +159,92 @@ export function TopBar() {
                     height: 65
                 }}>
                     <Toolbar>
-                        <Box sx={{ display: 'flex', alignItems: 'center', marginLeft: "2.2%", width: "100%"}}>
-                            <img src={logo} alt="logo" style={{width: "auto", height: "auto"}}/>
+                        <Box sx={{ display: 'flex', alignItems: 'center', width: "100%", justifyContent: "space-between" }}>
+                            <img src={logo} alt="logo" style={{ width: "auto", height: "auto" }} />
                             <MenuList sx={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                flexWrap: 'nowrap',
                                 marginBottom: "0.6%",
                                 paddingTop: "21px",
-                                marginLeft: "2%",
-                                display: "flex",
-                                flexDirection: "row",
-                                alignItems: 'center',
+                                marginLeft: "1.5%",
+                                width: "30%",
+                                '@media (max-width: 900px)': {
+                                    width: '100%',
+                                    justifyContent: 'space-around',
+                                }
                             }}>
                                 <ListItemButton className={classes.nested}
-                                                style={{paddingLeft: 24, width: "160px", flexWrap: 'nowrap'}}
+                                                sx={{
+                                                    width: "auto",
+                                                    maxWidth: "150px",
+                                                    whiteSpace: 'normal',
+                                                    '@media (max-width: 900px)': {
+                                                        marginLeft: "1%",
+                                                        marginRight: "1%",
+                                                    }
+                                                }}
                                                 onClick={() => navigate(paths.HOME)}>
                                     <ListItemText disableTypography sx={{
                                         color: "white",
                                         fontWeight: "bold",
-                                        fontSize: 13
-                                    }}>Početna
-                                        stranica</ListItemText>
+                                        fontSize: 13,
+                                        whiteSpace: 'normal',
+                                    }}>Početna stranica</ListItemText>
                                 </ListItemButton>
                                 <ListItemButton className={classes.nested}
                                                 aria-owns={anchorEl ? "simple-menu" : undefined}
-                                                style={{paddingLeft: 25}}
+                                                sx={{
+                                                    marginRight: "0%",
+                                                    width: "auto",
+                                                    maxWidth: "100px",
+                                                    minWidth: "12%",
+                                                    whiteSpace: 'normal',
+                                                    '@media (max-width: 900px)': {
+                                                        marginLeft: "-7%",
+                                                        marginRight: "1%",
+                                                    }
+                                                }}
                                                 onClick={() => navigate(paths.FACULTIES)}
                                                 aria-haspopup="true">
-                                    <ListItemText disableTypography style={{
+                                    <ListItemText disableTypography sx={{
                                         color: "white",
                                         fontWeight: "bold",
                                         fontSize: 13,
+                                        whiteSpace: 'normal',
                                     }} onClick={() => handleClick}>Fakulteti</ListItemText>
-                                    <IoIosArrowDown style={{
-                                        color: "white",
-                                        width: "15px",
-                                        height: "15px",
-                                        marginLeft: 6,
-                                        marginTop: 1.2
-                                    }}/>
+                                    {/*<IoIosArrowDown sx={{
+                                    color: "white",
+                                    width: "15px",
+                                    height: "15px",
+                                    marginLeft: "3%",
+                                    marginTop: 1.2
+                                }}/>*/}
                                 </ListItemButton>
                                 <ListItemButton className={classes.nested}
                                                 aria-owns={anchorEl ? "simple-menu" : undefined}
-                                                style={{paddingLeft: 24, width: "160px"}}
+                                                sx={{
+                                                    width: "auto",
+                                                    whiteSpace: 'normal',
+                                                    '@media (max-width: 900px)': {
+                                                        marginLeft: "1%",
+                                                        // marginRight: "2%",
+                                                    }
+                                                }}
                                                 onClick={() => navigate(paths.LOCATIONS)}
                                                 aria-haspopup="true">
-                                    <ListItemText disableTypography style={{
+                                    <ListItemText disableTypography sx={{
                                         color: "white",
                                         fontWeight: "bold",
                                         fontSize: 13,
+                                        whiteSpace: 'normal',
                                     }} onClick={() => handleClick}>Fakulteti u blizini</ListItemText>
                                 </ListItemButton>
                             </MenuList>
                             <LockIcon
-                                style={{ marginLeft: 'auto', marginRight: "40px", height: 25, width: 25, color: "#fff" }}
-                                onClick={onLockIconClick}/>
+                                sx={{ marginLeft: 'auto', height: 25, width: 25, color: "#fff", cursor: 'pointer' }}
+                                onClick={onLockIconClick} />
                         </Box>
                     </Toolbar>
                 </AppBar>

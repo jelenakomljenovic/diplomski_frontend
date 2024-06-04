@@ -46,11 +46,6 @@ export default function ConfirmationModal({
 
     return (
         <Dialog onClose={handleClose} open={modalOpen} maxWidth="xs">
-            {/*<ModalDialogTitle id="dialog-title" onClose={handleClose}>*/}
-            {/*    <Typography className={classes.title} variant="body2">*/}
-            {/*        {title}*/}
-            {/*    </Typography>*/}
-            {/*</ModalDialogTitle>*/}
             <DialogContent className={classes.background}>
                 <Typography gutterBottom>{modalText}</Typography>
             </DialogContent>

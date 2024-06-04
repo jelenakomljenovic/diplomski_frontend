@@ -2,7 +2,7 @@ import * as React from 'react';
 import {useEffect, useState} from 'react';
 import {createStyles, makeStyles} from "@mui/styles";
 import {Image} from "../../api/image/imageType";
-import {Container, Divider, IconButton, ImageList, ImageListItem, Pagination, Theme} from "@mui/material";
+import {Box, Container, Divider, IconButton, ImageList, ImageListItem, Pagination, Theme} from "@mui/material";
 import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
@@ -35,7 +35,6 @@ const useStyles = makeStyles((theme: Theme) =>
             alignItems: "center",
             justifyContent: "center",
             border: `3px dashed #3696ab`,
-            margin: 4,
             "&:hover": {
                 cursor: "pointer",
             },
@@ -63,6 +62,17 @@ const useStyles = makeStyles((theme: Theme) =>
                 margin: theme.spacing(1, 1),
             },
         },
+        imageListStyle: {
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "space-around",
+            gap: "10px"
+        },
+        imageItemStyle: {
+            width: "100%",
+            height: "150px",
+            objectFit: "cover"
+        }
     })
 );
 
@@ -196,126 +206,124 @@ export default function InsertImages({
     };
 
     return (
-        <div style={{
-            backgroundColor: "white",
-            height: "72vh",
-            width: "91%",
-            boxShadow: "5px 5px 20px 3px rgba(0,0,0,.08)",
-            marginLeft: "5.2%",
-            marginTop: "3%",
-        }}>
-            <div>
-                <p style={{
-                    fontSize: 15,
-                    color: "#3696ab",
-                    fontWeight: "bold",
-                    marginLeft: "1%",
-                    fontFamily: "openSans"
-                }}>Dodaj fotografije</p>
-            </div>
-            <Divider style={{
-                backgroundColor: "rgba(84,90,109,0.13)",
-                width: "100%",
-                height: "0.1vh"
-            }}/>
-            {/*<Box style={{*/}
-            {/*    backgroundColor: "rgb(255,255,255)",*/}
-            {/*    width: "100%",*/}
-            {/*    minHeight: "89.1vh",*/}
-            {/*    height: "auto",*/}
-            {/*    marginTop: "-1%"*/}
-            {/*}}>*/}
-            <Container maxWidth="lg" style={{paddingTop: "2%"}}>
-                <ImageList className={classes.imageList} cols={5} gap={10}>
-                    {
-                        page === 1 && (
-                            <div className={classes.root}>
-                                <input
-                                    accept="image/*"
-                                    className={classes.input}
-                                    id="icon-button-photo"
-                                    type="file"
-                                    onChange={handlePictureUpload}
+        <Box sx={{display: "flex", justifyContent: "center", alignItems: "center", paddingTop: 5}}>
+            <Box sx={{
+                backgroundColor: "white",
+                border: "1px solid lightgray",
+                height: "auto",
+                width: "95%",
+                minHeight: "72vh",
+                boxShadow: "5px 5px 20px 3px rgba(0,0,0,.08)",
+                paddingBottom: "15px",
+                boxSizing: "border-box"
+            }}>
+                <div style={{maxHeight: "45px", display: "flex", flexDirection: "column", marginBottom: "1.5%"}}>
+                    <p style={{
+                        fontSize: 15,
+                        paddingTop: "2px",
+                        color: "#3696ab",
+                        fontWeight: "bold",
+                        marginLeft: "1%",
+                        fontFamily: "openSans"
+                    }}>Dodaj fotografije</p>
+                    <Divider style={{
+                        backgroundColor: "rgba(84,90,109,0.13)",
+                        width: "100%",
+                        height: "0.1vh",
+                    }}/>
+                </div>
+                <Container maxWidth="lg" style={{paddingTop: "1%"}}>
+                    <ImageList className={classes.imageList} cols={5} gap={10}>
+                        {
+                            page === 1 && (
+                                <div className={classes.root}>
+                                    <input
+                                        accept="image/*"
+                                        className={classes.input}
+                                        id="icon-button-photo"
+                                        type="file"
+                                        onChange={handlePictureUpload}
+                                    />
+                                    <label htmlFor="icon-button-photo">
+                                        <div className={classes.upload}>
+                                            <IconButton color="primary" component="span">
+                                                <AddPhotoAlternateRoundedIcon className={classes.addPhoto}/>
+                                            </IconButton>
+                                        </div>
+                                    </label>
+                                </div>
+                            )
+                        }
+                        {currentImages.map((image) => (
+                            <ImageListItem key={image.id} className={`${classes.mobile} image`}>
+                                <img src={image.pictureBase64} alt="hospital"/>
+                                <div className="overlay"/>
+                                <DeleteIcon
+                                    style={{width: "40px", height: "40px"}}
+                                    className="delete"
+                                    onClick={() => {
+                                        setImageIdToDelete(image.id);
+                                        setModalOpen((modalOpen) => !modalOpen);
+                                    }}
                                 />
-                                <label htmlFor="icon-button-photo">
-                                    <div className={classes.upload}>
-                                        <IconButton color="primary" component="span">
-                                            <AddPhotoAlternateRoundedIcon className={classes.addPhoto}/>
-                                        </IconButton>
-                                    </div>
-                                </label>
-                            </div>
-                        )
-                    }
-                    {currentImages.map((image) => (
-                        <ImageListItem key={image.id} className={`${classes.mobile} image`}>
-                            <img src={image.pictureBase64} alt="hospital"/>
-                            <div className="overlay"/>
-                            <DeleteIcon
-                                style={{width: "40px", height: "40px"}}
-                                className="delete"
-                                onClick={() => {
-                                    setImageIdToDelete(image.id);
-                                    setModalOpen((modalOpen) => !modalOpen);
-                                }}
+                                <ZoomInIcon
+                                    style={{width: "40px", height: "40px"}}
+                                    className="delete zoom"
+                                    onClick={() => {
+                                        setCurrentIndex(gallery.indexOf(image));
+                                    }}
+                                />
+                            </ImageListItem>
+                        ))}
+                        {imageIdToDelete !== undefined && (
+                            <ConfirmationModal
+                                modalOpen={modalOpen}
+                                handleClose={toggleOpen}
+                                handleAction={() => handleImageDelete(imageIdToDelete)}
+                                modalText={'Klikom na dugme "U redu" fotografija će biti izbrisana.'}
+                                title={"Jeste li sigurni da želite izbrisati fotografiju?"}
                             />
-                            <ZoomInIcon
-                                style={{width: "40px", height: "40px"}}
-                                className="delete zoom"
-                                onClick={() => {
-                                    setCurrentIndex(gallery.indexOf(image));
-                                }}
+                        )}
+                        {failedUpload && (
+                            <ConfirmationModal
+                                modalOpen={modalOpen}
+                                handleClose={toggleOpen}
+                                modalText={"Neuspješan prenos fotografije!"}
+                                title={"Greška!"}
                             />
-                        </ImageListItem>
-                    ))}
-                    {imageIdToDelete !== undefined && (
-                        <ConfirmationModal
-                            modalOpen={modalOpen}
-                            handleClose={toggleOpen}
-                            handleAction={() => handleImageDelete(imageIdToDelete)}
-                            modalText={'Klikom na dugme "U redu" fotografija će biti izbrisana.'}
-                            title={"Jeste li sigurni da želite izbrisati fotografiju?"}
+                        )}
+                        {currentIndex !== undefined && (
+                            <Lightbox
+                                mainSrc={gallery[currentIndex].pictureBase64}
+                                nextSrc={gallery[(currentIndex + 1) % gallery.length].pictureBase64}
+                                prevSrc={
+                                    gallery[(currentIndex + gallery.length - 1) % gallery.length]
+                                        .pictureBase64
+                                }
+                                onCloseRequest={() => {
+                                    setCurrentIndex(undefined);
+                                }}
+                                onMovePrevRequest={() =>
+                                    setCurrentIndex(
+                                        (currentIndex + gallery.length - 1) % gallery.length
+                                    )
+                                }
+                                onMoveNextRequest={() =>
+                                    setCurrentIndex((currentIndex + 1) % gallery.length)
+                                }
+                                reactModalStyle={{overlay: {...lightboxStyles}}}
+                            />
+                        )}
+                    </ImageList>
+                    <Box sx={{display: "flex", justifyContent: "flex-end", gap: 2, marginTop: 5}}>
+                        <Pagination
+                            count={pageCount}
+                            page={page}
+                            onChange={(event, value) => setPage(value)}
                         />
-                    )}
-                    {failedUpload && (
-                        <ConfirmationModal
-                            modalOpen={modalOpen}
-                            handleClose={toggleOpen}
-                            modalText={"Neuspješan prenos fotografije!"}
-                            title={"Greška!"}
-                        />
-                    )}
-                    {currentIndex !== undefined && (
-                        <Lightbox
-                            mainSrc={gallery[currentIndex].pictureBase64}
-                            nextSrc={gallery[(currentIndex + 1) % gallery.length].pictureBase64}
-                            prevSrc={
-                                gallery[(currentIndex + gallery.length - 1) % gallery.length]
-                                    .pictureBase64
-                            }
-                            onCloseRequest={() => {
-                                setCurrentIndex(undefined);
-                            }}
-                            onMovePrevRequest={() =>
-                                setCurrentIndex(
-                                    (currentIndex + gallery.length - 1) % gallery.length
-                                )
-                            }
-                            onMoveNextRequest={() =>
-                                setCurrentIndex((currentIndex + 1) % gallery.length)
-                            }
-                            reactModalStyle={{overlay: {...lightboxStyles}}}
-                        />
-                    )}
-                </ImageList>
-                <Pagination
-                    style={{marginTop: "10%", marginLeft: "90%"}}
-                    count={pageCount}
-                    page={page}
-                    onChange={(event, value) => setPage(value)}
-                />
-            </Container>
-            {/*</Box>*/}
-        </div>
+                    </Box>
+                </Container>
+            </Box>
+        </Box>
     );
 }

@@ -7,7 +7,7 @@ import {removeAdminStyle} from "../../styles/administrationStyles";
 import {IoRemoveCircleOutline} from "react-icons/io5";
 import IconButton from "@mui/material/IconButton";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
-import {Snackbar, TextField} from "@mui/material";
+import {Box, Snackbar, TextField} from "@mui/material";
 import {getIdFromToken} from "../../token/token";
 import AlertDialog from "../dialogs/AlertDialog";
 import {useNavigate} from "react-router-dom";
@@ -162,49 +162,76 @@ export function RemoveAdminRole() {
                 anchorOrigin={{vertical: 'top', horizontal: 'right'}}
                 onClose={handleCloseSnackbar}
             />
-            <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                marginTop: "0.5%",
-                marginLeft: "5%",
-                height: "30%",
-                width: "80wv",
-                marginBottom: "15px"
-            }}>
-                <div className="administrationTitle">Upravljaj adminima</div>
-                <ControlPointIcon
-                    style={{
-                        color: "rgba(55,79,121,0.88)",
-                        marginLeft: "0.5%",
-                        width: "20px",
-                        height: "20px",
-                        cursor: "pointer"
-                    }} onClick={() => navigate(paths.ADD_ADMIN)}/>
-            </div>
-            <TextField
-                id="add-user-tfu"
-                style={{
-                    display: "flex",
-                    backgroundColor: "white",
-                    width: "92.5%",
-                    marginLeft: "5%",
-                    marginBottom: "25px"
-                }}
-                size="small"
-                onChange={e => setTextFilter(e.target.value)}
-                label="Pretrazi"
-                variant="outlined"
-            />
-            <DataGrid
-                sx={removeAdminStyle}
-                rows={filteredUsers}
-                // localeText={localizedTextsMap()}
-                columns={columns}
-            />
-            <AlertDialog open={open} setOpen={setOpen} handleClickOpen={handleClickOpen} handleClose={handleClose}
-                         handleSave={() => deleteAdmin(idForDelete)}
-                         dialogContent={"Da li ste sigurni da želite ukloniti korisnika " + adminName + " iz grupe administratora?"}
-                         dialogTitle={"Brisanje korisnika"}/>
+            <Box sx={{display: "flex", justifyContent: "center", alignItems: "center", paddingTop: 3}}>
+                <Box sx={{
+                    height: "auto",
+                    width: "94.3%",
+                    minHeight: "72vh",
+                    paddingBottom: "20px",
+                    boxSizing: "border-box"
+                }}>
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        width: '100%',
+                        marginBottom: '27px'
+                    }}>
+                        <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            fontSize: '17px',
+                            color: 'rgba(55,79,121,0.88)',
+                            fontFamily: 'openSans'
+                        }}>
+                            <p style={{
+                                fontWeight: 'bold',
+                                margin: '0',
+                                marginRight: '10px'
+                            }}>
+                                Upravljaj adminima
+                            </p>
+                            <ControlPointIcon
+                                style={{
+                                    color: 'rgba(55,79,121,0.88)',
+                                    width: '20px',
+                                    height: '20px',
+                                    cursor: 'pointer'
+                                }}
+                                onClick={() => navigate(paths.ADD_ADMIN)}
+                            />
+                        </div>
+                        <TextField
+                            id="add-user-tfu"
+                            style={{
+                                backgroundColor: 'white',
+                                borderRadius: "10px",
+                                width: '280px',
+                            }}
+                            InputProps={{
+                                style: {
+                                    borderRadius: '10px',
+                                }
+                            }}
+                            size="small"
+                            onChange={e => setTextFilter(e.target.value)}
+                            label="Pretrazi"
+                            variant="outlined"
+                        />
+                    </div>
+                    <DataGrid
+                        sx={removeAdminStyle}
+                        rows={filteredUsers}
+                        columns={columns}
+                    />
+                    <AlertDialog open={open} setOpen={setOpen} handleClickOpen={handleClickOpen}
+                                 handleClose={handleClose}
+                                 handleSave={() => deleteAdmin(idForDelete)}
+                                 dialogContent={"Da li si siguran/na da želiš ukloniti korisnika " + adminName + " iz grupe administratora?"}
+
+                                 dialogTitle={"Brisanje korisnika"}/>
+                </Box>
+            </Box>
         </div>
     );
 }

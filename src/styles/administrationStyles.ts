@@ -1,11 +1,10 @@
 export const tableStyles = {
-    maxHeight: "64.1vh",
-    minHeight: "61vh",
-    width: "92.5%",
-    marginLeft: "5%",
+    maxHeight: "65vh",
+    minHeight: "65vh",
+    width: "100%",
     backgroundColor: "white",
     '& .MuiDataGrid-columnHeaders': {
-        backgroundColor: "#204066",
+        backgroundColor: "#315783",
         color: "white",
         lineHeight: "40px",
         '& .MuiDataGrid-columnHeaderTitle': {

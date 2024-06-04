@@ -1,14 +1,28 @@
 import * as React from 'react';
-import {Typography} from "@mui/material";
+import {Dialog, List, ListItem, ListItemButton, ListItemText, Typography, DialogTitle} from "@mui/material";
 import faculty from '../../src/assets/faculty.png';
 import exam from '../../src/assets/exam.png';
 import fee from '../../src/assets/fee.png';
 import {useState} from "react";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
 
 function FacultyTipsSection() {
     const [firstMouseClick, setFirstMouseClick] = useState(false);
     const [secondMouseClick, setSecondMouseClick] = useState(false);
     const [thirdMouseClick, setThirdMouseClick] = useState(false);
+    const [openDialog, setOpenDialog] = useState(false);
+
+    const handleMenuClick = () => {
+        setOpenDialog(true);
+    };
+
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+    };
+
 
     return (
         <div style={{minHeight: "660px", backgroundColor: "#f9fbfe", height: "auto"}}>
@@ -142,10 +156,8 @@ function FacultyTipsSection() {
                     }}>
                         Prijemni ispit igra ključnu ulogu u selekciji studenata i predstavlja mjerilo
                         sposobnosti kandidata u određenoj oblasti.
-                        Na svakom fakultetu postoji posebna literatura, која се
-                        користи за ефикасну припрему пријемног испита,
-                        док одређени факултети држе и припремну наставу како би додатно упознали студенте са
-                        структуром испита.
+                        Na svakom fakultetu postoji posebna literatura, koja se koristi za efikasnu prepremu prijemnog ispita,
+                        dok određeni fakulteti drže i pripremnu nastavu kako bi dodatno upoznali studente sa strukturom ispita.
 
                     </Typography>
                 </div>
@@ -201,9 +213,29 @@ function FacultyTipsSection() {
                         Školarina predstavlja dodatni faktor koji bi trebalo uzeti u obzir prilikom odabira
                         fakulteta.
                         Pažljivo istražite dostupne opcije finansijske podrške tokom studiranja poput:
-                        stipendija, mogućnosti za rad tokom studija kao и drugih načina podrške који mogu
-                        značajno uticati na budžet и искуство током факултетског образовања.
+                        <span style={{ textDecoration: "underline", color: "blue", cursor: "pointer" }} onClick={handleMenuClick}> stipendija</span>, mogućnosti za rad tokom studija kao i drugih načina podrške koji mogu
+                        značajno uticati na budžet i iskustvo tokom fakultetskog obrazovanja.
                     </Typography>
+
+                    <Dialog open={openDialog} onClose={handleCloseDialog} >
+                        <DialogTitle align="center">Stipendije</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText id="alert-dialog-description">
+                                Pronadjite spisak dostupnih stipendija u zavisnosti od toga u kojoj državi želite studirati:
+                            </DialogContentText>
+                            <List>
+                                <ListItemButton style={{backgroundColor: "transparent"}}>
+                                    <ListItemText primary="1. BiH" />
+                                </ListItemButton>
+                                <ListItemButton style={{backgroundColor: "transparent"}}>
+                                    <ListItemText primary="2. Srbija" />
+                                </ListItemButton>
+                                <ListItemButton style={{backgroundColor: "transparent"}}>
+                                    <ListItemText primary="3. Hrvatska" />
+                                </ListItemButton>
+                            </List>
+                        </DialogContent>
+                    </Dialog>
                 </div>
             </div>
         </div>
