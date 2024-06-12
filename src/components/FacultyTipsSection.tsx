@@ -1,19 +1,22 @@
 import * as React from 'react';
-import {Dialog, List, ListItem, ListItemButton, ListItemText, Typography, DialogTitle} from "@mui/material";
+import {useState} from 'react';
+import {Dialog, DialogTitle, List, ListItemButton, ListItemText, Typography} from "@mui/material";
 import faculty from '../../src/assets/faculty.png';
 import exam from '../../src/assets/exam.png';
 import fee from '../../src/assets/fee.png';
-import {useState} from "react";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import DialogActions from "@mui/material/DialogActions";
-import Button from "@mui/material/Button";
+import "./tips.css";
+import TipsDialog from './TipsDialog';
 
 function FacultyTipsSection() {
     const [firstMouseClick, setFirstMouseClick] = useState(false);
     const [secondMouseClick, setSecondMouseClick] = useState(false);
     const [thirdMouseClick, setThirdMouseClick] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
+    const [hover1, setHover1] = useState(false);
+    const [hover2, setHover2] = useState(false);
+    const [hover3, setHover3] = useState(false);
 
     const handleMenuClick = () => {
         setOpenDialog(true);
@@ -64,7 +67,7 @@ function FacultyTipsSection() {
                     alignItems: "center",
                     transform: firstMouseClick ? "scale(1.02)" : "scale(1)",
                     transition: "transform 0.3s ease",
-                    marginBottom: "2%" // Add marginBottom to create space when stacked
+                    marginBottom: "2%"
                 }}
                      onMouseEnter={() => setFirstMouseClick(true)}
                      onMouseLeave={() => setFirstMouseClick(false)}>
@@ -99,7 +102,8 @@ function FacultyTipsSection() {
                         fontFamily: "openSans",
                         textAlign: "center"
                     }}>
-                        Kako biste donijeli odluku koja je u skladu sa vašim interesovanjima i poslovnim ambicijama, najvažnije je
+                        Kako biste donijeli odluku koja je u skladu sa vašim interesovanjima i poslovnim ambicijama,
+                        najvažnije je
                         dobro se informisati o studijskom planu i programu svakog fakulteta.
                         Takođe, dobro je uzeti u obzir i alternativnu opciju, ukoliko se desi da ne ispunite kriterijume
                         za upis na željeni fakultet.
@@ -118,7 +122,7 @@ function FacultyTipsSection() {
                     alignItems: "center",
                     transform: secondMouseClick ? "scale(1.02)" : "scale(1)",
                     transition: "transform 0.3s ease",
-                    marginBottom: "2%" // Add marginBottom to create space when stacked
+                    marginBottom: "2%"
                 }}
                      onMouseEnter={() => setSecondMouseClick(true)}
                      onMouseLeave={() => setSecondMouseClick(false)}>
@@ -154,10 +158,13 @@ function FacultyTipsSection() {
                         fontFamily: "openSans",
                         textAlign: "center"
                     }}>
-                        Prijemni ispit igra ključnu ulogu u selekciji studenata i predstavlja mjerilo
+                        <span style={{textDecoration: "underline", color: "rgb(13,73,227)", cursor: "pointer"}}>Prijemni ispit</span> igra
+                        ključnu ulogu u selekciji studenata i predstavlja mjerilo
                         sposobnosti kandidata u određenoj oblasti.
-                        Na svakom fakultetu postoji posebna literatura, koja se koristi za efikasnu prepremu prijemnog ispita,
-                        dok određeni fakulteti drže i pripremnu nastavu kako bi dodatno upoznali studente sa strukturom ispita.
+                        Na svakom fakultetu postoji posebna literatura, koja se koristi za efikasnu prepremu prijemnog
+                        ispita,
+                        dok određeni fakulteti drže i pripremnu nastavu kako bi dodatno upoznali studente sa strukturom
+                        ispita.
 
                     </Typography>
                 </div>
@@ -174,7 +181,7 @@ function FacultyTipsSection() {
                     alignItems: "center",
                     transform: thirdMouseClick ? "scale(1.02)" : "scale(1)",
                     transition: "transform 0.3s ease",
-                    marginBottom: "2%" // Add marginBottom to create space when stacked
+                    marginBottom: "2%"
                 }}
                      onMouseEnter={() => setThirdMouseClick(true)}
                      onMouseLeave={() => setThirdMouseClick(false)}>
@@ -213,29 +220,57 @@ function FacultyTipsSection() {
                         Školarina predstavlja dodatni faktor koji bi trebalo uzeti u obzir prilikom odabira
                         fakulteta.
                         Pažljivo istražite dostupne opcije finansijske podrške tokom studiranja poput:
-                        <span style={{ textDecoration: "underline", color: "blue", cursor: "pointer" }} onClick={handleMenuClick}> stipendija</span>, mogućnosti za rad tokom studija kao i drugih načina podrške koji mogu
+                        <span style={{textDecoration: "underline", color: "rgb(13,73,227)", cursor: "pointer"}}
+                              onClick={handleMenuClick}> stipendija</span>, mogućnosti za rad tokom studija kao i drugih
+                        načina podrške koji mogu
                         značajno uticati na budžet i iskustvo tokom fakultetskog obrazovanja.
                     </Typography>
-
-                    <Dialog open={openDialog} onClose={handleCloseDialog} >
-                        <DialogTitle align="center">Stipendije</DialogTitle>
-                        <DialogContent>
-                            <DialogContentText id="alert-dialog-description">
-                                Pronadjite spisak dostupnih stipendija u zavisnosti od toga u kojoj državi želite studirati:
-                            </DialogContentText>
-                            <List>
-                                <ListItemButton style={{backgroundColor: "transparent"}}>
-                                    <ListItemText primary="1. BiH" />
-                                </ListItemButton>
-                                <ListItemButton style={{backgroundColor: "transparent"}}>
-                                    <ListItemText primary="2. Srbija" />
-                                </ListItemButton>
-                                <ListItemButton style={{backgroundColor: "transparent"}}>
-                                    <ListItemText primary="3. Hrvatska" />
-                                </ListItemButton>
-                            </List>
-                        </DialogContent>
-                    </Dialog>
+                <TipsDialog open={openDialog}
+                            onClose={handleCloseDialog}/>
+                    {/*<Dialog*/}
+                    {/*    open={openDialog}*/}
+                    {/*    onClose={handleCloseDialog}*/}
+                    {/*    PaperProps={{*/}
+                    {/*        className: 'custom-dialog'*/}
+                    {/*    }}*/}
+                    {/*>*/}
+                    {/*    <DialogTitle align="center">Stipendije</DialogTitle>*/}
+                    {/*    <DialogContent>*/}
+                    {/*        <DialogContentText id="alert-dialog-description">*/}
+                    {/*            Pronadjite spisak dostupnih stipendija u zavisnosti od toga u kojoj državi želite*/}
+                    {/*            studirati:*/}
+                    {/*        </DialogContentText>*/}
+                    {/*        <List>*/}
+                    {/*            <ListItemButton style={{backgroundColor: "transparent"}}*/}
+                    {/*                            onMouseEnter={() => setHover1(true)}*/}
+                    {/*                            onMouseLeave={() => setHover1(false)}>*/}
+                    {/*                <a href="https://archive.europa.ba/?page_id=5606" target="_blank"*/}
+                    {/*                   rel="noopener noreferrer" className="custom-link"*/}
+                    {/*                   style={{textDecoration: 'none', color: hover1 ? "#3696ab" : 'inherit'}}>*/}
+                    {/*                    <ListItemText primary="1. BiH"/>*/}
+                    {/*                </a>*/}
+                    {/*            </ListItemButton>*/}
+                    {/*            <ListItemButton style={{backgroundColor: "transparent"}} className="custom-link"*/}
+                    {/*                            onMouseEnter={() => setHover2(true)}*/}
+                    {/*                            onMouseLeave={() => setHover2(false)}>*/}
+                    {/*                <a href="https://www.prijemni.rs/stipendije/srbija/studentske-stipendije/"*/}
+                    {/*                   target="_blank" rel="noopener noreferrer" className="custom-link"*/}
+                    {/*                   style={{textDecoration: 'none', color: hover2 ? "#3696ab" : 'inherit'}}>*/}
+                    {/*                    <ListItemText primary="2. Srbija"/>*/}
+                    {/*                </a>*/}
+                    {/*            </ListItemButton>*/}
+                    {/*            <ListItemButton style={{backgroundColor: "transparent"}}*/}
+                    {/*                            onMouseEnter={() => setHover3(true)}*/}
+                    {/*                            onMouseLeave={() => setHover3(false)}>*/}
+                    {/*                <a href="http://www.stipendije.info/" target="_blank" rel="noopener noreferrer"*/}
+                    {/*                   className="custom-link"*/}
+                    {/*                   style={{textDecoration: 'none', color: hover3 ? "#3696ab" : 'inherit'}}>*/}
+                    {/*                    <ListItemText primary="3. Hrvatska"/>*/}
+                    {/*                </a>*/}
+                    {/*            </ListItemButton>*/}
+                    {/*        </List>*/}
+                    {/*    </DialogContent>*/}
+                    {/*</Dialog>*/}
                 </div>
             </div>
         </div>

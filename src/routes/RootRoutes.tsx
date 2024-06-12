@@ -18,6 +18,7 @@ import AddNewAdmin from "../components/administration/AddNewAdmin";
 import InsertImages from "../components/administration/InsertImages";
 import PredictionPage from "../components/prediction/PredictionPage";
 import {PasswordApproved} from "../components/password/PasswordApproved";
+import ErrorPage from "../error/ErrorPage";
 
 function useQuery() {
     return new URLSearchParams(useLocation().search);
@@ -46,6 +47,7 @@ function RootRoutes() {
                     <Route path={paths.ADD_ADMIN} element={<AddNewAdmin/>}/>
                     <Route path={paths.IMAGES} element={<InsertImages/>}/>
                     <Route path={paths.PREDICTION} element={<PredictionPage/>}/>
+                    <Route path="*" element={<ErrorPage/>}/>
                 </Route>
             </Routes>
         </Box>

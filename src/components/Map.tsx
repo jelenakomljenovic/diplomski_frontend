@@ -19,10 +19,6 @@ const mapContainerStyle = {
     top: "2%",
 };
 
-const center = {
-    lat: 43.653225,
-    lng: -79.383186,
-}
 
 const options = {
     styles: mapStyles,

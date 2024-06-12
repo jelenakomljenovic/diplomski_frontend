@@ -98,7 +98,8 @@ function HomePageImg() {
                         width: "140px",
                         fontWeight: "bold",
                         textAlign: "center",
-                        marginTop: "6%"
+                        marginTop: "6%",
+                        borderRadius: 20,
                     }} onClick={() => navigate(paths.PREDICTION)}>Pogledaj više</Button>
                 </div>
                 <style>

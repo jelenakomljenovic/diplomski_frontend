@@ -1,0 +1,149 @@
+.fcontainer {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    min-height: 34vh;
+    height: auto;
+    width: 94.6%;
+    border: 0.5px solid rgba(55, 79, 121, 0.29);
+    box-shadow: 0px 0px 0.4px 0px rgba(55, 79, 121, 0.69);
+    margin-left: 2.8%;
+    margin-top: 3%;
+}
+
+.fheader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 1%;
+    padding-top: 0.5%;
+    padding-bottom: 0.5%;
+}
+
+.fheader p {
+    font-size: 15px;
+    color: rgba(55, 79, 121, 0.88);
+    font-weight: bold;
+    margin: 0;
+    font-family: openSans;
+}
+
+.admin-icons {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5%;
+    padding-right: 1%;
+}
+
+.admin-icons a,
+.admin-icons svg {
+    color: rgba(55, 79, 121, 0.88);
+    cursor: pointer;
+    margin-left: 0.5%;
+}
+
+.divider {
+    background-color: rgba(55, 79, 121, 0.18);
+    width: 100%;
+    height: 0.1vh;
+    margin: 1% 0;
+}
+
+.fcontent {
+    display: flex;
+    margin-top: 0.8%;
+    flex-direction: row;
+    align-items: center;
+}
+
+.fcontent img {
+    height: 68%;
+    width: 9%;
+    margin: 1%;
+    cursor: pointer;
+}
+
+.fcontent-text {
+    display: flex;
+    flex-direction: column;
+    margin-left: 3%;
+    margin-top: -6%;
+}
+
+.fcontent-text a {
+    font-size: 21px;
+    color: rgba(55, 79, 121, 0.88);
+    font-weight: bold;
+    text-decoration: none;
+    font-family: openSans;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    margin-left: 58%;
+    margin-top: -8.9%;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2%;
+    margin-top: -1.4%;
+}
+
+.contact-item p {
+    font-family: openSans;
+    color: #374f79;
+    padding-left: 1%;
+    margin: 0;
+}
+
+.contact-item a {
+    color: #374f79;
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .fcontainer {
+        width: 94.6%;
+        margin-left: 2.8%;
+        margin-top: 6%;
+    }
+
+    .fheader p,
+    .fcontent-text a {
+        font-size: 16px;
+    }
+
+    .admin-icons {
+        margin-left: 0;
+        margin-top: 2%;
+    }
+
+    .fcontent {
+        flex-direction: column;
+    }
+
+    .fcontent img {
+        width: 20%;
+        margin: 2% auto;
+    }
+
+    .fcontent-text {
+        margin-top: 1%;
+        margin-left: 0;
+        text-align: center;
+    }
+
+    .contact-info {
+        margin-left: 0;
+        margin-top: 2%;
+        align-items: center;
+    }
+
+    .contact-item {
+        margin-top: 1%;
+        white-space: nowrap;
+    }
+}

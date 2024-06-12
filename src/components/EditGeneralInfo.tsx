@@ -6,8 +6,7 @@ import {Link, useNavigate, useParams} from "react-router-dom";
 import {CreateFacultyRequest} from "../api/faculty/faculty";
 import {getUniversityById} from "../api/faculty/facultyApi";
 import axiosService from "../axios/axiosService";
-import {backendUrl, paths} from "../constants/urlConstants";
-import {getTokenFromStorage} from "../token/token";
+import {backendUrl} from "../constants/urlConstants";
 import {useSnackbarHelper} from "../util/toastUtil";
 
 function EditGeneralInfo() {
@@ -43,10 +42,11 @@ function EditGeneralInfo() {
             email: faculty?.email,
         }).then(response => {
             navigate(`/details/${faculty?.id}`);
-            handleClickVariant('success', { vertical: 'top', horizontal: 'right' }, "Uspješno ažuriranje!")();
+            handleClickVariant('success', {vertical: 'top', horizontal: 'right'}, "Uspješno ažuriranje!")();
         }).catch(error => {
-            handleClickVariant('error', { vertical: 'top', horizontal: 'right' }, "Došlo je do greške")();
-        });;
+            handleClickVariant('error', {vertical: 'top', horizontal: 'right'}, "Došlo je do greške")();
+        });
+        ;
     }
 
 

@@ -1,137 +1,137 @@
-import * as React from 'react';
-import {useEffect, useState} from 'react';
-import {createStyles, makeStyles} from "@mui/styles";
-import {Image} from "../../api/image/imageType";
-import {Box, Container, Divider, IconButton, ImageList, ImageListItem, Pagination, Theme} from "@mui/material";
-import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
-import DeleteIcon from "@mui/icons-material/Delete";
+import React, {useEffect, useState} from 'react';
+import {makeStyles} from '@mui/styles';
+import {Box, Divider, Grid, IconButton, Pagination, Snackbar, Typography} from '@mui/material';
+import AddPhotoAlternateRoundedIcon from '@mui/icons-material/AddPhotoAlternateRounded';
+import DeleteIcon from '@mui/icons-material/Delete';
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
-import "./img.css";
+import Lightbox from 'react-image-lightbox';
+import 'react-image-lightbox/style.css';
 import {deleteImage, getAllImagesByUniversityId, saveImage} from "../../api/image/imageApi";
+import {Image} from "../../api/image/imageType";
 import {useParams} from "react-router-dom";
-import Lightbox from "react-image-lightbox";
-import ConfirmationModal from "./ConfirmationModal";
+import AlertDialog from "../dialogs/AlertDialog";
+import {useSnackbarHelper} from "../../util/toastUtil";
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+        padding: "20px",
+    },
+    upload: {
+        position: "relative",
+        width: 'calc(100% - 20px)',
+        height: '200px',
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        border: "3px dashed rgba(54,150,171,0.68)",
+        backgroundColor: "rgba(246,246,246,0.7)",
+        margin: '10px',
+        borderRadius: '8px',
+        "&:hover": {
+            cursor: "pointer",
+        },
+    },
+    addPhoto: {
+        fontSize: 40,
+        color: "rgba(54,150,171,0.68)",
+    },
+    uploadContent: {
+        position: "absolute",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        color: "#777",
+    },
+    imageItem: {
+        position: "relative",
+        width: 'calc(100% - 20px)',
+        height: '200px',
+        backgroundColor: '#fff',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        borderRadius: '8px',
+        overflow: 'hidden',
+        margin: '10px',
+        '& img': {
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+        },
+        '& .overlay': {
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            display: 'none',
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+        '&:hover .overlay': {
+            display: 'flex',
+        },
+    },
+    icon: {
+        color: 'white',
+    },
+    gridContainer: {
+        boxSizing: 'border-box',
+    },
+    paginationContainer: {
+        display: 'flex',
+        justifyContent: 'flex-start',
+        marginTop: '10px',
+        paddingLeft: '10px',
+    },
+    ul: {
+        '& .MuiPaginationItem-root': {
+            '&.Mui-selected': {
+                background: '#4a828c',
+                color: 'white',
+            },
+        },
+    },
+}));
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            padding: "0px !important",
-            width: "200px !important",
-        },
-        imageList: {
-            flexWrap: "nowrap",
-            [theme.breakpoints.only("xs")]: {
-                flexDirection: "column",
-                marginBottom: 20,
-            },
-        },
-        input: {display: "none"},
-        upload: {
-            width: "13rem",
-            minHeight: "91%",
-            height: "91%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            border: `3px dashed #3696ab`,
-            "&:hover": {
-                cursor: "pointer",
-            },
-            [theme.breakpoints.only("xs")]: {
-                width: "auto",
-            },
-        },
-        addPhoto: {
-            fontSize: 40,
-            color: "#3696ab",
-        },
-        mobile: {
-            [theme.breakpoints.only("xs")]: {
-                width: "100% !important",
-            },
-        },
-        purpleCircle: {
-            background: "red",
-            borderRadius: "50%",
-            padding: theme.spacing(1),
-            color: "#fff",
-            margin: theme.spacing(0, 1, 0, 5),
-            [theme.breakpoints.only("xs")]: {
-                display: "inline-flex",
-                margin: theme.spacing(1, 1),
-            },
-        },
-        imageListStyle: {
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "space-around",
-            gap: "10px"
-        },
-        imageItemStyle: {
-            width: "100%",
-            height: "150px",
-            objectFit: "cover"
-        }
-    })
-);
-
-type NurseGalleryProps = {
+type GalleryProps = {
     galleryProp?: Image[];
     handleGalleryChange?: (gallery: Image[]) => void;
 };
 
-export default function InsertImages({
-                                         galleryProp,
-                                         handleGalleryChange,
-                                     }: NurseGalleryProps) {
-    const classes = useStyles();
-    let numId = 0;
-    const [modalOpen, setModalOpen] = useState<boolean>(false);
-    const [currentIndex, setCurrentIndex] = useState<number>();
-    const [failedUpload, setFailedUpload] = useState<boolean>(false);
-    const [imageIdToDelete, setImageIdToDelete] = useState<number>();
-    const [imageIdToApprove, setImageIdToApprove] = useState<number>();
-    const [gallery, setGallery] = useState<Image[]>([]);
+function Gallery({
+                     galleryProp,
+                     handleGalleryChange,
+                 }: GalleryProps) {
+
     let {id} = useParams();
+    let numId = 0;
+    const classes = useStyles();
+    const [images, setImages] = useState<Image[]>([]);
+    const [currentIndex, setCurrentIndex] = useState<number | null>(null);
     const [page, setPage] = useState(1);
-    const [imagesPerPage, setImagesPerPage] = useState(9);
-    const pageCount = Math.ceil(gallery.length / imagesPerPage);
+    const [open, setOpen] = useState(false);
+    const handleClickVariant = useSnackbarHelper();
+    const imagesPerPage = 7;
+    const pageCount = Math.ceil(images.length / imagesPerPage);
     const indexOfLastImage = page * imagesPerPage;
     const indexOfFirstImage = indexOfLastImage - imagesPerPage;
-    const currentImages = gallery.slice(indexOfFirstImage, indexOfLastImage);
+    const currentImages = images.slice(indexOfFirstImage, indexOfLastImage);
+    const [imageIdToDelete, setImageIdToDelete] = useState<number>();
+    const [failedUpload, setFailedUpload] = useState<boolean>(false);
 
 
-    const lightboxStyles = {
-        position: 'fixed' as 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        zIndex: 10000,
+    const handleClickOpen = () => {
+        setOpen(true);
     };
 
-    const toggleOpen = () => {
-        setModalOpen((modalOpen) => !modalOpen);
-        if (imageIdToDelete !== undefined) {
-            setImageIdToDelete(undefined);
-        }
-        if (imageIdToApprove !== undefined) {
-            setImageIdToApprove(undefined);
-        }
-        if (failedUpload) {
-            setFailedUpload(false);
-        }
+    const handleClose = () => {
+        setOpen(false);
     };
 
-    async function handleImageDelete(imageID: number) {
-        await deleteImage(imageID);
-        setGallery([...gallery.filter((image) => image.id !== imageID)]);
-        if (handleGalleryChange) {
-            handleGalleryChange([...gallery.filter((image) => image.id !== imageID)]);
-        }
-        toggleOpen();
-    }
 
     useEffect(() => {
         if (id !== undefined) {
@@ -140,13 +140,13 @@ export default function InsertImages({
 
         async function fetchPictures() {
             const response = await getAllImagesByUniversityId(numId);
-            setGallery(response.data.gallery);
+            setImages(response.data.gallery);
         }
 
         if (!galleryProp) {
             fetchPictures();
         } else {
-            setGallery(galleryProp);
+            setImages(galleryProp);
         }
     }, [galleryProp]);
 
@@ -168,7 +168,7 @@ export default function InsertImages({
 
     const handlePictureUploadException = () => {
         setFailedUpload(true);
-        setModalOpen((modalOpen) => !modalOpen);
+        handleClickVariant('error', {vertical: "top", horizontal: "right"}, "Neuspješan prenos fotografije!")();
         return;
     };
 
@@ -184,7 +184,7 @@ export default function InsertImages({
         if (
             !imageFile.type.startsWith("image") ||
             imageFile.size / (1024 * 1024) > 3 ||
-            gallery.length >= 25
+            images.length >= 25
         ) {
             handlePictureUploadException();
             e.target.value = "";
@@ -196,17 +196,70 @@ export default function InsertImages({
 
         const picture = await saveImage(numId, imageToSave);
         e.target.value = "";
-        setGallery([
+        setImages([
             {
                 id: picture?.data.id,
                 pictureBase64: picture?.data.pictureBase64,
             },
-            ...gallery,
+            ...images,
         ]);
     };
 
+    async function handleImageDelete(imageID: number) {
+        await deleteImage(imageID);
+        const updatedImages = images.filter((image) => image.id !== imageID);
+        setImages(updatedImages);
+        if (handleGalleryChange) {
+            handleGalleryChange(updatedImages);
+        }
+
+        const newPageCount = Math.ceil(updatedImages.length / imagesPerPage);
+        const newIndexOfLastImage = page * imagesPerPage;
+        const newIndexOfFirstImage = newIndexOfLastImage - imagesPerPage;
+        const newCurrentImages = updatedImages.slice(newIndexOfFirstImage, newIndexOfLastImage);
+
+        if (newPageCount < page) {
+            setPage(page - 1);
+        } else if (newCurrentImages.length === 0 && page > 1) {
+            setPage(1);
+        }
+
+        handleClose();
+    }
+
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+
+    const handleCloseSnackbar = (event: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpenSnackbar(false);
+    };
+
+    const lightboxStyles = {
+        position: 'fixed' as 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: 10000,
+    };
+
     return (
-        <Box sx={{display: "flex", justifyContent: "center", alignItems: "center", paddingTop: 5}}>
+        <Box sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            paddingTop: 5,
+            flexDirection: "column"
+        }}>
+            <Snackbar
+                open={openSnackbar}
+                autoHideDuration={2000}
+                anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+                onClose={handleCloseSnackbar}
+            />
             <Box sx={{
                 backgroundColor: "white",
                 border: "1px solid lightgray",
@@ -214,8 +267,10 @@ export default function InsertImages({
                 width: "95%",
                 minHeight: "72vh",
                 boxShadow: "5px 5px 20px 3px rgba(0,0,0,.08)",
-                paddingBottom: "15px",
-                boxSizing: "border-box"
+                paddingBottom: "20px",
+                boxSizing: "border-box",
+                overflow: 'hidden',
+                position: 'relative',
             }}>
                 <div style={{maxHeight: "45px", display: "flex", flexDirection: "column", marginBottom: "1.5%"}}>
                     <p style={{
@@ -232,98 +287,92 @@ export default function InsertImages({
                         height: "0.1vh",
                     }}/>
                 </div>
-                <Container maxWidth="lg" style={{paddingTop: "1%"}}>
-                    <ImageList className={classes.imageList} cols={5} gap={10}>
-                        {
-                            page === 1 && (
-                                <div className={classes.root}>
-                                    <input
-                                        accept="image/*"
-                                        className={classes.input}
-                                        id="icon-button-photo"
-                                        type="file"
-                                        onChange={handlePictureUpload}
-                                    />
-                                    <label htmlFor="icon-button-photo">
-                                        <div className={classes.upload}>
-                                            <IconButton color="primary" component="span">
-                                                <AddPhotoAlternateRoundedIcon className={classes.addPhoto}/>
-                                            </IconButton>
-                                        </div>
-                                    </label>
-                                </div>
-                            )
-                        }
-                        {currentImages.map((image) => (
-                            <ImageListItem key={image.id} className={`${classes.mobile} image`}>
-                                <img src={image.pictureBase64} alt="hospital"/>
-                                <div className="overlay"/>
-                                <DeleteIcon
-                                    style={{width: "40px", height: "40px"}}
-                                    className="delete"
-                                    onClick={() => {
-                                        setImageIdToDelete(image.id);
-                                        setModalOpen((modalOpen) => !modalOpen);
-                                    }}
+                <Grid container spacing={2} className={classes.gridContainer}>
+                    {page === 1 && (
+                        <Grid item xs={12} sm={6} md={4} lg={3}>
+                            <Box className={classes.upload}>
+                                <input
+                                    accept="image/*"
+                                    style={{display: 'none'}}
+                                    id="icon-button-file"
+                                    type="file"
+                                    onChange={handlePictureUpload}
                                 />
-                                <ZoomInIcon
-                                    style={{width: "40px", height: "40px"}}
-                                    className="delete zoom"
-                                    onClick={() => {
-                                        setCurrentIndex(gallery.indexOf(image));
-                                    }}
-                                />
-                            </ImageListItem>
-                        ))}
-                        {imageIdToDelete !== undefined && (
-                            <ConfirmationModal
-                                modalOpen={modalOpen}
-                                handleClose={toggleOpen}
-                                handleAction={() => handleImageDelete(imageIdToDelete)}
-                                modalText={'Klikom na dugme "U redu" fotografija će biti izbrisana.'}
-                                title={"Jeste li sigurni da želite izbrisati fotografiju?"}
-                            />
-                        )}
-                        {failedUpload && (
-                            <ConfirmationModal
-                                modalOpen={modalOpen}
-                                handleClose={toggleOpen}
-                                modalText={"Neuspješan prenos fotografije!"}
-                                title={"Greška!"}
-                            />
-                        )}
-                        {currentIndex !== undefined && (
-                            <Lightbox
-                                mainSrc={gallery[currentIndex].pictureBase64}
-                                nextSrc={gallery[(currentIndex + 1) % gallery.length].pictureBase64}
-                                prevSrc={
-                                    gallery[(currentIndex + gallery.length - 1) % gallery.length]
-                                        .pictureBase64
-                                }
-                                onCloseRequest={() => {
-                                    setCurrentIndex(undefined);
-                                }}
-                                onMovePrevRequest={() =>
-                                    setCurrentIndex(
-                                        (currentIndex + gallery.length - 1) % gallery.length
-                                    )
-                                }
-                                onMoveNextRequest={() =>
-                                    setCurrentIndex((currentIndex + 1) % gallery.length)
-                                }
-                                reactModalStyle={{overlay: {...lightboxStyles}}}
-                            />
-                        )}
-                    </ImageList>
-                    <Box sx={{display: "flex", justifyContent: "flex-end", gap: 2, marginTop: 5}}>
-                        <Pagination
-                            count={pageCount}
-                            page={page}
-                            onChange={(event, value) => setPage(value)}
+                                <label htmlFor="icon-button-file" className={classes.uploadContent}>
+                                    <AddPhotoAlternateRoundedIcon className={classes.addPhoto}/>
+                                    <Typography variant="subtitle1" style={{color: "rgba(54,150,171,0.75)"}}>Dodaj
+                                        fotografiju</Typography>
+                                </label>
+                            </Box>
+                        </Grid>
+                    )}
+                    {currentImages.map((src, index) => (
+                        <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+                            <div className={classes.imageItem}>
+                                <img src={src.pictureBase64} alt={`gallery-${index}`}/>
+                                <Box className="overlay">
+                                    <IconButton style={{
+                                        backgroundColor: "#4a828c",
+                                        color: "white",
+                                        marginRight: "5px"
+                                    }} onClick={() => {
+                                        setImageIdToDelete(src.id);
+                                        setOpen(!open);
+                                    }}>
+                                        <DeleteIcon/>
+                                    </IconButton>
+                                    <IconButton style={{
+                                        backgroundColor: "#4a828c",
+                                        color: "white"
+                                    }} onClick={() => setCurrentIndex(index)}>
+                                        <ZoomInIcon/>
+                                    </IconButton>
+                                </Box>
+                            </div>
+                        </Grid>
+                    ))}
+                    {imageIdToDelete !== undefined && (
+                        <AlertDialog
+                            open={open}
+                            setOpen={setOpen}
+                            handleClickOpen={handleClickOpen}
+                            handleClose={handleClose}
+                            handleSave={() => handleImageDelete(imageIdToDelete)}
+                            dialogContent={'Klikom na dugme "Potvrdi" fotografija će biti izbrisana.'}
+                            dialogTitle={"Jeste li sigurni da želite izbrisati fotografiju?"}
                         />
-                    </Box>
-                </Container>
+                    )}
+                </Grid>
+                {currentIndex !== null && (
+                    <Lightbox
+                        mainSrc={images[currentIndex].pictureBase64}
+                        nextSrc={images[(currentIndex + 1) % images.length].pictureBase64}
+                        prevSrc={images[(currentIndex + images.length - 1) % images.length].pictureBase64}
+                        onCloseRequest={() => setCurrentIndex(null)}
+                        onMovePrevRequest={() =>
+                            setCurrentIndex((currentIndex + images.length - 1) % images.length)
+                        }
+                        onMoveNextRequest={() =>
+                            setCurrentIndex((currentIndex + 1) % images.length)
+                        }
+                        reactModalStyle={{overlay: {...lightboxStyles}}}
+                    />
+                )}
             </Box>
+            {pageCount > 1 &&
+                <Box className={classes.paginationContainer}>
+                    <Pagination
+                        count={pageCount}
+                        page={page}
+                        onChange={(event, value) => setPage(value)}
+                        classes={{
+                            root: classes.ul,
+                        }}
+                    />
+                </Box>
+            }
         </Box>
     );
 }
+
+export default Gallery;

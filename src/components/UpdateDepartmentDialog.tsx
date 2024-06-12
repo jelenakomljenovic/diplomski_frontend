@@ -10,7 +10,7 @@ import {
     TextField
 } from "@mui/material";
 import "./Department.css";
-import {insertDepartment, updateDepartment} from "../api/faculty/departmentApi";
+import {updateDepartment} from "../api/faculty/departmentApi";
 import {CreateFacultyRequest} from "../api/faculty/faculty";
 import {Department} from "../api/faculty/department";
 import {useSnackbarHelper} from "../util/toastUtil";
@@ -49,7 +49,7 @@ export function UpdateDepartmentDialog({
     const handleSaveButton = async () => {
         if (majorValue !== undefined) {
             const names = majorValue?.split(",").filter(name => name.trim() !== "").map(name => ({name: name.trim()}));
-            await updateDepartment(departmentId , {
+            await updateDepartment(departmentId, {
                 name: departmentName,
                 university: university,
                 majors: names
@@ -87,7 +87,7 @@ export function UpdateDepartmentDialog({
                 </DialogContent>
                 <DialogActions>
                     <Button size="small" variant={"outlined"} color={"error"}
-                            style={{minWidth: 70}} onClick={handleCancelButton}>Ponisti</Button>
+                            style={{minWidth: 70}} onClick={handleCancelButton}>Poništi</Button>
                     <Button size="small" variant={"outlined"} color={"success"}
                             style={{minWidth: 70}} onClick={handleSaveButton}>Potvrdi</Button>
                 </DialogActions>
