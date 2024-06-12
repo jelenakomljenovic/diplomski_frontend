@@ -3,7 +3,7 @@ import { Dialog, DialogTitle, DialogContent, DialogContentText, List, ListItemBu
 import "./tips.css";
 
 
-const TipsDialogProps {
+type TipsDialogProps {
     openDialog: boolean;
     handleCloseDialog: () => void;
 }
