@@ -1,11 +1,9 @@
 import * as React from 'react';
 import {useState} from 'react';
-import {Dialog, DialogTitle, List, ListItemButton, ListItemText, Typography} from "@mui/material";
+import {Typography} from "@mui/material";
 import faculty from '../../src/assets/faculty.png';
 import exam from '../../src/assets/exam.png';
 import fee from '../../src/assets/fee.png';
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import "./tips.css";
 import TipsDialog from './TipsDialog';
 
@@ -14,9 +12,7 @@ function FacultyTipsSection() {
     const [secondMouseClick, setSecondMouseClick] = useState(false);
     const [thirdMouseClick, setThirdMouseClick] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
-    const [hover1, setHover1] = useState(false);
-    const [hover2, setHover2] = useState(false);
-    const [hover3, setHover3] = useState(false);
+    const [openExamDialog, setOpenExamDialog] = useState(false);
 
     const handleMenuClick = () => {
         setOpenDialog(true);
@@ -24,6 +20,14 @@ function FacultyTipsSection() {
 
     const handleCloseDialog = () => {
         setOpenDialog(false);
+    };
+
+    const handleMenuExamClick = () => {
+        setOpenExamDialog(true);
+    };
+
+    const handleCloseExamDialog = () => {
+        setOpenExamDialog(false);
     };
 
 
@@ -158,7 +162,8 @@ function FacultyTipsSection() {
                         fontFamily: "openSans",
                         textAlign: "center"
                     }}>
-                        <span style={{textDecoration: "underline", color: "rgb(13,73,227)", cursor: "pointer"}}>Prijemni ispit</span> igra
+                        <span style={{textDecoration: "underline", color: "rgb(13,73,227)", cursor: "pointer"}}
+                              onClick={handleMenuExamClick}>Prijemni ispit</span> igra
                         ključnu ulogu u selekciji studenata i predstavlja mjerilo
                         sposobnosti kandidata u određenoj oblasti.
                         Na svakom fakultetu postoji posebna literatura, koja se koristi za efikasnu prepremu prijemnog
@@ -225,52 +230,17 @@ function FacultyTipsSection() {
                         načina podrške koji mogu
                         značajno uticati na budžet i iskustvo tokom fakultetskog obrazovanja.
                     </Typography>
-                <TipsDialog open={openDialog}
-                            onClose={handleCloseDialog}/>
-                    {/*<Dialog*/}
-                    {/*    open={openDialog}*/}
-                    {/*    onClose={handleCloseDialog}*/}
-                    {/*    PaperProps={{*/}
-                    {/*        className: 'custom-dialog'*/}
-                    {/*    }}*/}
-                    {/*>*/}
-                    {/*    <DialogTitle align="center">Stipendije</DialogTitle>*/}
-                    {/*    <DialogContent>*/}
-                    {/*        <DialogContentText id="alert-dialog-description">*/}
-                    {/*            Pronadjite spisak dostupnih stipendija u zavisnosti od toga u kojoj državi želite*/}
-                    {/*            studirati:*/}
-                    {/*        </DialogContentText>*/}
-                    {/*        <List>*/}
-                    {/*            <ListItemButton style={{backgroundColor: "transparent"}}*/}
-                    {/*                            onMouseEnter={() => setHover1(true)}*/}
-                    {/*                            onMouseLeave={() => setHover1(false)}>*/}
-                    {/*                <a href="https://archive.europa.ba/?page_id=5606" target="_blank"*/}
-                    {/*                   rel="noopener noreferrer" className="custom-link"*/}
-                    {/*                   style={{textDecoration: 'none', color: hover1 ? "#3696ab" : 'inherit'}}>*/}
-                    {/*                    <ListItemText primary="1. BiH"/>*/}
-                    {/*                </a>*/}
-                    {/*            </ListItemButton>*/}
-                    {/*            <ListItemButton style={{backgroundColor: "transparent"}} className="custom-link"*/}
-                    {/*                            onMouseEnter={() => setHover2(true)}*/}
-                    {/*                            onMouseLeave={() => setHover2(false)}>*/}
-                    {/*                <a href="https://www.prijemni.rs/stipendije/srbija/studentske-stipendije/"*/}
-                    {/*                   target="_blank" rel="noopener noreferrer" className="custom-link"*/}
-                    {/*                   style={{textDecoration: 'none', color: hover2 ? "#3696ab" : 'inherit'}}>*/}
-                    {/*                    <ListItemText primary="2. Srbija"/>*/}
-                    {/*                </a>*/}
-                    {/*            </ListItemButton>*/}
-                    {/*            <ListItemButton style={{backgroundColor: "transparent"}}*/}
-                    {/*                            onMouseEnter={() => setHover3(true)}*/}
-                    {/*                            onMouseLeave={() => setHover3(false)}>*/}
-                    {/*                <a href="http://www.stipendije.info/" target="_blank" rel="noopener noreferrer"*/}
-                    {/*                   className="custom-link"*/}
-                    {/*                   style={{textDecoration: 'none', color: hover3 ? "#3696ab" : 'inherit'}}>*/}
-                    {/*                    <ListItemText primary="3. Hrvatska"/>*/}
-                    {/*                </a>*/}
-                    {/*            </ListItemButton>*/}
-                    {/*        </List>*/}
-                    {/*    </DialogContent>*/}
-                    {/*</Dialog>*/}
+                    <TipsDialog openDialog={openDialog}
+                                handleCloseDialog={handleCloseDialog}
+                                exam={false}
+                                title={"Stipendije"}
+                                contentText={" Pronadjite spisak dostupnih stipendija u zavisnosti od toga u kojoj državi želite studirati:"}
+                    />
+                    <TipsDialog openDialog={openExamDialog}
+                                handleCloseDialog={handleCloseExamDialog}
+                                exam={true}
+                                title={"Prijemni ispiti"}
+                                contentText={" Pronadjite informacije o prijemnim ispitima u zavisnosti od toga u kojoj državi želite studirati:"}/>
                 </div>
             </div>
         </div>
