@@ -1,0 +1,6 @@
+export const tehnickeNaukeOpcija1 = ["Elektrotehnički fakultet", "Mašinski fakultet", "Tehnološki fakultet"]
+export const tehnickeNaukeOpcija2 = ["Saobraćajni fakultet", "Arhitektonsko-građevinski fakultet"]
+export const drustveneNaukeOpcija1 = ["Pravni fakultet", "Fakultet političkih nauka", "Ekonomski fakultet", "Fakultet bezbjedosnih nauka"]
+export const drustveneNaukeOpcija2 = ["Akademija umjetnosti", "Filozofski fakultet", "Filološki fakultet", "Fakultet fizičkog vaspitanja i sporta"]
+export const prirodneNaukeOpcija1 = ["Prirodno-matematički fakultet", "Medicinski fakultet"]
+export const prirodneNaukeOpcija2 = ["Poljoprivredni fakultet", "Šumarski fakultet"]

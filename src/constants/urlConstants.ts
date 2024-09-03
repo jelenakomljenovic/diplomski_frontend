@@ -13,7 +13,9 @@ export const paths = {
     ADD_ADMIN: '/add/admin',
     IMAGES: '/images/:id',
     PREDICTION: '/prediction',
-    APPROVED: '/status'
+    APPROVED: '/status',
+    QUESTIONNAIRE: '/questionnaire',
+    INSERT_FACULTY: "/insert"
 }
 
 export const backendUrl = {
@@ -24,7 +26,12 @@ export const backendUrl = {
     DEPARTMENT_INSERT: '/department/insert',
     FACULTY_URL: '/universities',
     FACULTY_KEYWORD_URL: '/universities/filter',
+    FACULTY_FIND_BY_CITY: '/universities/find-by-city',
     PROFESSION_URL: '/classifications',
+    JOB_PROFILE_URL: '/job-profile/random-responsibilities',
+    JOB_PROFILE_SKILLS_URL: '/job-profile/random-skills',
+    JOB_PROFILE_PREDICT_URL: '/job-profile/predict',
+    JOB_PROFILE_RECOMMENDATIONS: '/job-profile/getRecommendations',
     COUNTRIES_URL: '/universities/countries',
     CITIES_URL: '/universities/cities',
     AUTHENTICATE: `/authenticate`,
@@ -32,5 +39,6 @@ export const backendUrl = {
     USER_INSERT: '/users/add',
     USER_UPDATE: '/users/update',
     IMAGES_URL: '/universities/pictures',
-    IMAGES_SAVE_URL: '/universities/pictures/save'
+    IMAGES_SAVE_URL: '/universities/pictures/save',
+    QUESTIONS: "/questions",
 }

@@ -39,16 +39,16 @@ export function AvatarButton() {
     const [user, setUser] = useState<UserInfo>();
 
     useEffect(() => {
-      const getUserInfo = async () => {
-        try {
-          const userId = getIdFromToken();
-          const response = await findUserById(userId);
-          setUser({ firstName: response.data.firstName, lastName: response.data.lastName});
-        } catch (error: any) {
-          // showErrorToast(`${i18next.t('errorMessages.find_user_by_id')}`);
+        const getUserInfo = async () => {
+            try {
+                const userId = getIdFromToken();
+                const response = await findUserById(userId);
+                setUser({firstName: response.data.firstName, lastName: response.data.lastName});
+            } catch (error: any) {
+                console.log(error);
+            }
         }
-      }
-      getUserInfo();
+        getUserInfo();
     }, [setUser]);
 
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -69,7 +69,8 @@ export function AvatarButton() {
             <Stack direction="row" alignItems={"center"}>
                 <Tooltip title="Podesavanja">
                     <IconButton onClick={handleOpenUserMenu}>
-                        <Avatar style={{backgroundColor: "#adc3c7"}}>{user?.firstName.charAt(0)}{user?.lastName.charAt(0)}</Avatar>
+                        <Avatar
+                            style={{backgroundColor: "#adc3c7"}}>{user?.firstName.charAt(0)}{user?.lastName.charAt(0)}</Avatar>
                     </IconButton>
                 </Tooltip>
             </Stack>

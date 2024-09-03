@@ -5,8 +5,11 @@ import learningImage from "../../assets/learning.png";
 import {HiOutlineQuestionMarkCircle} from "react-icons/hi";
 import {RiQuestionAnswerFill} from "react-icons/ri";
 import {IoMdMailUnread} from "react-icons/io";
+import {useNavigate} from "react-router-dom";
+import {paths} from "../../constants/urlConstants";
 
 function PredictionPage() {
+    const navigate = useNavigate();
     return (
         <div style={{
             minHeight: "86.8vh",
@@ -44,7 +47,7 @@ function PredictionPage() {
                         marginTop: "3%",
                         borderRadius: 20,
                         fontSize: 13,
-                    }}>Otvori upitnik</Button>
+                    }} onClick={() => navigate(paths.QUESTIONNAIRE)}>Otvori upitnik</Button>
                 </div>
                 <div style={{width: "50%", display: 'flex', justifyContent: 'flex-end'}}>
                     <img style={{
@@ -109,8 +112,10 @@ function PredictionPage() {
                         paddingBottom: 12,
                         fontFamily: "openSans",
                     }}>
-                        Upitnik se sastoji od ukupno 7 pitanja, podijeljenih u tri dijela. Prvi dio se odnosi na lične
-                        informacije, drugi na srednjoškolsko obrazovanje i treći na tvoje sposobnosti i vještine.
+                        Upitnik se sastoji od ukupno 10 pitanja, podijeljenih u četiri dijela. Prvi dio se odnosi na
+                        lične
+                        informacije, drugi na srednjoškolsko obrazovanje, treći na oblasti interesovanja i četvrti na
+                        sposobnosti i vještine.
                     </Typography>
                 </div>
                 <div style={{
@@ -167,7 +172,7 @@ function PredictionPage() {
                         paddingBottom: 12,
                         fontFamily: "openSans",
                     }}>
-                        Nakon što uspješno popuniš upitnik, dobićeš preporuku dva fakulteta na osnovu unesenih odgovora.
+                        Nakon što uspješno popuniš upitnik, dobićeš preporuku fakulteta na osnovu unesenih odgovora.
                         Klikom na svaki fakultet moći ćeš pronaći više informacija. </Typography>
                 </div>
                 <div style={{
@@ -224,13 +229,14 @@ function PredictionPage() {
                         paddingBottom: 12,
                         fontFamily: "openSans",
                     }}>
-                        Na kraju upitnika, možeš zatražiti detaljan izvještaj sa svim informacijama o preporučenim
-                        fakultetima. Izvještaj se šalje direktno na e-mail adresu koju si prethodno unio.
+                        Na kraju upitnika, možeš preuzeti detaljan izvještaj sa svim informacijama o preporučenim
+                        fakultetima. Izvještaj je moguće dobiti i direktno putem e-mail adrese koja je prethodno
+                        unesena.
                     </Typography>
-                    </div>
+                </div>
             </div>
         </div>
-);
+    );
 }
 
 export default PredictionPage;

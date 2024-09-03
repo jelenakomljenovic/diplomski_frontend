@@ -19,6 +19,8 @@ import InsertImages from "../components/administration/InsertImages";
 import PredictionPage from "../components/prediction/PredictionPage";
 import {PasswordApproved} from "../components/password/PasswordApproved";
 import ErrorPage from "../error/ErrorPage";
+import QuestionnairePage from "../components/prediction/QuestionnairePage";
+import InsertFacultyDialog from "../components/InsertFacultyDialog";
 
 function useQuery() {
     return new URLSearchParams(useLocation().search);
@@ -47,6 +49,8 @@ function RootRoutes() {
                     <Route path={paths.ADD_ADMIN} element={<AddNewAdmin/>}/>
                     <Route path={paths.IMAGES} element={<InsertImages/>}/>
                     <Route path={paths.PREDICTION} element={<PredictionPage/>}/>
+                    <Route path={paths.QUESTIONNAIRE} element={<QuestionnairePage/>}/>
+                    <Route path={paths.INSERT_FACULTY} element={<InsertFacultyDialog/>}/>
                     <Route path="*" element={<ErrorPage/>}/>
                 </Route>
             </Routes>

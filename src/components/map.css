@@ -1,0 +1,10 @@
+button.gm-ui-hover-effect {
+    height: 28px !important;
+    width: 28px !important;
+    margin-right: 5px !important;
+}
+
+button.gm-ui-hover-effect span {
+    height: 16px !important;
+    width: 16px !important;
+}

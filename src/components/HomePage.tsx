@@ -28,7 +28,6 @@ function HomePage() {
                     <StudentTermsSection/>
                 </div>
             </ScrollContext.Provider>
-            {/*<FacultiesPage/>*/}
         </div>
     )
         ;

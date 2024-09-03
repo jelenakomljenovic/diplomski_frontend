@@ -15,6 +15,40 @@
     background-color: #ffffff;
     border: 0.5px solid rgba(55, 79, 121, 0.29);
     box-shadow: 0px 0px 0.4px 0px rgba(55, 79, 121, 0.69);
+    padding-bottom: 2%;
+}
+
+.faculty-card {
+    flex: 1 1 30.7%;
+    max-width: 30.7%;
+    min-width: 300px;
+    height: auto;
+    min-height: 280px;
+    margin-bottom: 2.5%;
+    background-color: #ffffff;
+    box-shadow: 5px 5px 20px 3px rgba(0, 0, 0, .08);
+}
+
+@media (max-width: 1200px) {
+    .faculty-card {
+        flex: 1 1 46.7%;
+        min-width: 300px;
+        max-width: 46.7%;
+    }
+}
+
+@media (max-width: 768px) {
+    .faculty-card {
+        flex: 1 1 95%;
+        max-width: 95%;
+    }
+}
+
+@media (max-width: 368px) {
+    .faculty-card {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
 }
 
 .header {
@@ -27,7 +61,17 @@
     padding-right: 10%;
 }
 
-.title {
+.faculty-header {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    margin-top: 4%;
+    justify-content: space-between;
+    margin-left: 5%;
+    padding-right: 10%;
+}
+
+.title1 {
     flex-grow: 1;
     margin-right: 20px;
     font-size: 15px;
@@ -47,6 +91,36 @@
     background-color: rgba(184, 212, 236, 0.67);
 }
 
+.icon-container1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 35px;
+    width: 35px;
+}
+
+
+.icon-container1 .icon-circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+}
+
+.icon-container1 .icon-circle:hover {
+    background-color: rgba(114, 114, 114, 0.2);
+}
+
+
+.header-name {
+    font-size: 16px;
+    color: rgba(33, 33, 33, 0.73);
+    font-weight: bold;
+    margin-left: 5%;
+    font-family: openSans;
+}
+
 .description {
     font-size: 16px;
     color: rgba(55, 79, 121, 0.82);
@@ -56,11 +130,19 @@
 }
 
 .grid-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-left: 5%;
+}
+
+.grid-container-department {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
-    padding: 0 30px;
+    margin-left: 5%;
 }
+
 
 .sub-item {
     font-size: 15px;

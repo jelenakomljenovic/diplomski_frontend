@@ -4,7 +4,7 @@ import Faculty from "./Faculty";
 function FacultiesPage() {
 
     return (
-        <div style={{marginLeft: "4.8%"}}>
+        <div style={{marginLeft: "2.8%"}}>
             <Faculty/>
         </div>
     );

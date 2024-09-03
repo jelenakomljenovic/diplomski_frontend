@@ -11,7 +11,7 @@ const useStyles = makeStyles({
         backgroundColor: "rgba(190,232,224,0.43)"
     },
     rotate: {
-        animation: '$spin 20s linear infinite', // Referenca na definiranu animaciju dolje
+        animation: '$spin 20s linear infinite',
     },
     '@keyframes spin': {
         '0%': {transform: 'rotate(0deg)'},

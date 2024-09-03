@@ -36,5 +36,5 @@ export default function ParseToken({ token }: ParseTokenProps) {
         parseToken();
     }, [token, navigate]);
 
-    return isLoading ? <Loading /> : null; // Sada koristimo isLoading da kontroliramo prikazivanje komponente
+    return isLoading ? <Loading /> : null;
 }

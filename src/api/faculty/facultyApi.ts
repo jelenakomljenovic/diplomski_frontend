@@ -17,10 +17,7 @@ export async function getUniversityById(id: number) {
 }
 
 export async function getAllCities(countriesList: Array<String>) {
-    const response = await axiosService(true).post(`${backendUrl.CITIES_URL}`, {
-        ...countriesList,
-        countries: countriesList
-    });
+    const response = await axiosService(true).post(`${backendUrl.CITIES_URL}`, countriesList);
     return response;
 }
 
@@ -31,5 +28,10 @@ export async function deleteUniversity(id: number) {
 
 export async function getAllFacultiesByKeyword(keywords: string[]) {
     const response = await axiosService(true).post(`${backendUrl.FACULTY_KEYWORD_URL}`, keywords);
+    return response;
+}
+
+export async function getAllByCity(universities: string[], city: string) {
+    const response = await axiosService(true).post(`${backendUrl.FACULTY_FIND_BY_CITY}/${city}`, universities);
     return response;
 }

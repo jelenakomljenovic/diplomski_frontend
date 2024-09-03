@@ -24,6 +24,7 @@ import {MdEmail} from "react-icons/md";
 import {useSnackbarHelper} from "../util/toastUtil";
 import "./details.css";
 import "./facultyInfo.css";
+import searchImage from "../assets/searchFile.png";
 
 const google = window.google ? window.google : {}
 
@@ -77,6 +78,9 @@ function FacultyDetails() {
     const [selectedDepartment, setSelectedDepartment] = useState<Department>();
     const handleClickVariant = useSnackbarHelper();
     const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [formattedName, setFormattedName] = useState("");
+    const defaultLogoPath = "/images/university.png";
+
 
     const handleCloseSnackbar = (event: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
@@ -106,7 +110,7 @@ function FacultyDetails() {
             axiosService(true).delete(`${backendUrl.DEPARTMENT}/${num}`);
             setAnchorEl(null);
             handleCloseDialog();
-            setDepartments(departments.filter(dep => dep.id !== num)); // Update departments state
+            setDepartments(departments.filter(dep => dep.id !== num));
             handleClickVariant('success', {
                 vertical: "top",
                 horizontal: "right"
@@ -120,12 +124,25 @@ function FacultyDetails() {
         setDepartments(prevDepartments => [...prevDepartments, newDepartment]);
     };
 
+
+    const fetchDepartments = async () => {
+        if (id !== undefined) {
+            numId = parseInt(id, 10);
+        }
+        const departmentsRes = await getAllDepartments(numId);
+        setDepartments(departmentsRes.data);
+    };
+
     useEffect(() => {
         const hasAdminRole = hasRole(Roles.ADMIN);
         if (hasAdminRole) {
             setIsAdmin(hasAdminRole);
         }
     }, [])
+
+    function formatName(name: any) {
+        return name.toLowerCase().replace(/ /g, "-");
+    }
 
     useEffect(() => {
         if (id !== undefined) {
@@ -178,6 +195,11 @@ function FacultyDetails() {
         const getFaculty = async () => {
             const facultyRes = await getUniversityById(numId);
             setFaculty(facultyRes.data);
+            const formattedName = formatName(facultyRes.data.name);
+            const formattedCity = formatName(facultyRes.data.city);
+            const logoPath = `/images/${formattedName}-${formattedCity}.jpg`;
+            console.log(logoPath);
+            setFormattedName(logoPath);
         }
         getFaculty();
     }, [id])
@@ -188,6 +210,9 @@ function FacultyDetails() {
             setDepartmentIdForDelete(selectedDepartment?.id);
         }
     }, [open, selectedDepartment])
+
+
+
 
     return (
         <>
@@ -202,22 +227,18 @@ function FacultyDetails() {
                     <p>Informacije o fakultetu</p>
                     {isAdmin && (
                         <div className="admin-icons">
-                            {/*<Link to={`/edit/general/${faculty?.id}`} style={{ textDecoration: 'none' }}>*/}
-                            {/*    <EditIcon />*/}
-                            {/*</Link>*/}
                             <Link to={`/images/${faculty?.id}`} style={{textDecoration: 'none'}}>
                                 <PhotoCamera/>
                             </Link>
-                            {/*<DeleteOutline onClick={handleClickOpenDeleteUni} />*/}
                         </div>
                     )}
                 </div>
                 <Divider className="divider"/>
                 <div className="fcontent">
-                    <img src={university} alt=""/>
+                    <img src={formattedName} alt="" onError={(e) => e.currentTarget.src = defaultLogoPath}/>
                     <div className="fcontent-text">
                         <p>
-                            <a href={`http://${faculty?.website}`} target="_blank" rel="noopener noreferrer">
+                            <a href={`${faculty?.website}`} target="_blank" rel="noopener noreferrer">
                                 {faculty?.name}
                             </a>
                         </p>
@@ -243,7 +264,7 @@ function FacultyDetails() {
                     <div className="contact-item">
                         <FaLink style={{color: "rgba(55,79,121,0.81)"}}/>
                         <p>
-                            <a href={`http://${faculty?.website}`} target="_blank" rel="noopener noreferrer">
+                            <a href={`${faculty?.website}`} target="_blank" rel="noopener noreferrer">
                                 {faculty?.website}
                             </a>
                         </p>
@@ -274,24 +295,31 @@ function FacultyDetails() {
                                           }}/>
                     }
                 </div>
-                <div className="container">
-                    {departments.map((department: any) => (
+                <div>
+                    {departments.length === 0 && (
+                        <div style={{
+                            display: 'flex',
+                            flexDirection: "column",
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            height: '29vh',
+                        }}>
+                            <img src={searchImage} alt="No departments available"
+                                 style={{maxHeight: "auto", maxWidth: "15%"}}/>
+                            <p style={{marginTop: "-1.2%", marginLeft: "1%"}}>Nema podataka!</p>
+                        </div>
+                    )}
+                    <div className="container">
+                        {departments.map((department: any) => (
                         <div key={department.id} className="department-card">
                             <div className="header">
                                 <div style={{flexGrow: 1, marginRight: '20px'}}>
-                                    <p className="title">{department.name}</p>
+                                    <p className="title1">{department.name}</p>
                                 </div>
                                 <div className="icon-container">
                                     <AppsIcon data-department-id={department?.id}
                                               style={{color: "rgba(55, 79, 121, 0.71)"}} onClick={handleClick}/>
                                 </div>
-                                {isAdmin &&
-                                    <UpdateDepartmentDialog openUpdateDepartmentPopup={openUpdateDepartmentPopup}
-                                                            setOpenUpdateDepartmentPopup={setOpenUpdateDepartmentPopup}
-                                                            university={faculty}
-                                                            department={selectedDepartment}
-                                    />
-                                }
                                 {isAdmin &&
                                     <StyledMenu
                                         id="demo-customized-menu"
@@ -317,8 +345,9 @@ function FacultyDetails() {
                                 }
                             </div>
                             <div>
-                                <p className="description">Na ovom studijskom programu postoje sljedeći smjerovi:</p>
-                                <div className="grid-container">
+                                <p className="description">Na ovom studijskom programu postoje sljedeći
+                                    smjerovi:</p>
+                                <div className="grid-container-department">
                                     {department.majors && department.majors.map((major: any) => (
                                         <p key={major.id} className="sub-item"><Stop
                                             className="sub-item-icon"/>{major.name}</p>
@@ -326,15 +355,25 @@ function FacultyDetails() {
                                 </div>
                             </div>
                         </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </div>
+            {isAdmin &&
+                <UpdateDepartmentDialog openUpdateDepartmentPopup={openUpdateDepartmentPopup}
+                                        setOpenUpdateDepartmentPopup={setOpenUpdateDepartmentPopup}
+                                        university={faculty}
+                                        department={selectedDepartment}
+                                        fetchDepartments={fetchDepartments}
+                />
+            }
             <CreateDepartmentDialog openAddDepartmentPopup={openAddDepartmentPopup}
                                     setOpenAddDepartmentPopup={setOpenAddDepartmentPopup}
                                     university={faculty}
                                     addDepartment={addDepartment}
             />
-            <AlertDialog open={open} setOpen={setOpen} handleClickOpen={handleClickOpen} handleClose={handleCloseDialog}
+            <AlertDialog open={open} setOpen={setOpen} handleClickOpen={handleClickOpen}
+                         handleClose={handleCloseDialog}
                          handleSave={() => deleteDepartment(departmentIdForDelete)}
                          dialogContent={"Da li si siguran/na da želiš trajno obrisati studijski program " + departmentName + "?"}
                          dialogTitle={"Brisanje studijskog programa"}/>

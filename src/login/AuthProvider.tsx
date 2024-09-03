@@ -6,10 +6,10 @@ interface AuthContextType {
 }
 
 interface AuthProviderProps {
-    children: ReactNode; // Ovo omogućava bilo koji validan React child
+    children: ReactNode;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined); // Sada smo definisali tačan tip za AuthContext
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const useAuth = () => {
     const context = useContext(AuthContext);

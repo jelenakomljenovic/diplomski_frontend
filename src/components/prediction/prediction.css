@@ -1,0 +1,19 @@
+.checkbox-container {
+    minWidth: 70%;
+    height: 300px;
+    overflow-y: scroll;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 20px auto;
+}
+
+.checkbox-container h3 {
+    margin: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.checkbox-item {
+    display: block;
+    margin: 10px 0;
+}

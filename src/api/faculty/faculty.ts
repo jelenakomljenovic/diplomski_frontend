@@ -1,4 +1,5 @@
 import {CreateProfessionRequest} from "../profession/profession";
+import {Logo, SendImage} from "../image/imageType";
 
 export type CreateFacultyRequest = {
     id: number,
@@ -12,5 +13,6 @@ export type CreateFacultyRequest = {
     website: string,
     email: string,
     coordinates: string,
-    type: boolean
+    type: boolean,
+    logo: string
 }

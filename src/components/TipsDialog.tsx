@@ -33,12 +33,12 @@ const TipsDialog = ({openDialog, handleCloseDialog, exam, title, contentText}: T
                     <ListItemButton style={{backgroundColor: "transparent"}}
                                     onMouseEnter={() => setHover1(true)}
                                     onMouseLeave={() => setHover1(false)}>
-                        {exam ? (<a href="https://www.prijemni.rs/prijemni-ispit/"
+                        {exam ? (<a href="https://studomat.ba/rubrika/univerziteti-u-bih/"
                                     target="_blank" rel="noopener noreferrer" className="custom-link"
                                     style={{textDecoration: 'none', color: hover1 ? "#3696ab" : 'inherit'}}>
                                 <ListItemText primary="1. BiH"/>
                             </a>) :
-                            (<a href="https://archive.europa.ba/?page_id=5606"
+                            (<a href="https://studomat.ba/rubrika/prilike/stipendije/"
                                 target="_blank" rel="noopener noreferrer" className="custom-link"
                                 style={{textDecoration: 'none', color: hover1 ? "#3696ab" : 'inherit'}}> <ListItemText
                                 primary="1. BiH"/>

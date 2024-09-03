@@ -1,9 +1,8 @@
 import * as React from 'react';
 import {SyntheticEvent, useEffect, useState} from 'react';
 import {AutocompleteValue, Box, Button, Divider, TextField} from "@mui/material";
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {CreateFacultyRequest} from "../api/faculty/faculty";
-import {getUniversityById} from "../api/faculty/facultyApi";
 import axiosService from "../axios/axiosService";
 import {backendUrl, paths} from "../constants/urlConstants";
 import {useSnackbarHelper} from "../util/toastUtil";
@@ -16,21 +15,14 @@ type Profession = {
     name: string
 }
 
-function EditGeneralInfo() {
-    let {id} = useParams();
+function InsertFacultyDialog() {
     const [faculty, setFaculty] = useState<CreateFacultyRequest>();
-    const [updatedFaculty, setUpdatedFaculty] = useState<CreateFacultyRequest>();
-    let numId = 0;
     const handleClickVariant = useSnackbarHelper();
     const navigate = useNavigate();
     const [professions, setProfessions] = useState<Array<Profession>>([]);
     const [selectedProfession, setSelectedProfession] = useState<Profession | null>(null);
-    const [formattedName, setFormattedName] = useState("");
-    const defaultLogoPath = "/images/university.png";
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [imageUrl, setImageUrl] = useState<string>(`/images/university.png`);
-    const [oldName, setOldName] = useState("");
-    const [oldCity, setOldCity] = useState("");
 
     useEffect(() => {
         const fetchProfessions = async () => {
@@ -43,37 +35,7 @@ function EditGeneralInfo() {
         };
 
         fetchProfessions();
-
-
     }, []);
-
-    function formatName(name: any) {
-        return name.toLowerCase().replace(/ /g, "-");
-    }
-
-
-    useEffect(() => {
-        if (id !== undefined) {
-            numId = parseInt(id, 10);
-        }
-        const getFaculty = async () => {
-            const facultyRes = await getUniversityById(numId);
-            setFaculty(facultyRes.data);
-            const formattedName = formatName(facultyRes.data.name);
-            const formattedCity = formatName(facultyRes.data.city);
-            setOldName(facultyRes.data.name);
-            setOldCity(facultyRes.data.city);
-            const logoPath = `/images/${formattedName}-${formattedCity}.jpg`;
-            setUpdatedFaculty(facultyRes.data);
-            setImageUrl(logoPath);
-
-            const category = professions.find(
-                (profession: Profession) => profession.id === facultyRes.data.classification.id
-            );
-            setSelectedProfession(category || null);
-        }
-        getFaculty();
-    }, [id, professions]);
 
     const validateFields = (): boolean => {
         if (!faculty?.name || !faculty?.address || !faculty?.city || !faculty?.country ||
@@ -83,7 +45,6 @@ function EditGeneralInfo() {
         }
         return true;
     }
-
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -115,28 +76,16 @@ function EditGeneralInfo() {
             } catch (error) {
                 handleClickVariant('error', {vertical: 'top', horizontal: 'right'}, "Greška pri čuvanju slike!")();
             }
-        } else {
-            try {
-                await axiosService(true).post(`${backendUrl.FACULTY_URL}/updateImage`, {
-                    oldName: oldName,
-                    oldCity: oldCity,
-                    newName: faculty?.name,
-                    newCity: faculty?.city
-                });
-
-            } catch (error) {
-                handleClickVariant('error', {vertical: 'top', horizontal: 'right'}, "Greška pri izmjeni slike!")();
-            }
         }
     };
+
 
     const updateButtonClicked = () => {
         if (!validateFields()) {
             return;
         }
 
-        axiosService(true).put(`${backendUrl.FACULTY_URL}/update/${faculty?.id}`, {
-            id: faculty?.id,
+        axiosService(true).post(`${backendUrl.FACULTY_URL}/insert`, {
             name: faculty?.name,
             classification: selectedProfession,
             address: faculty?.address,
@@ -144,10 +93,12 @@ function EditGeneralInfo() {
             country: faculty?.country,
             phoneNumber: faculty?.phoneNumber,
             website: faculty?.website,
+            keyWords: "nesto, neki",
             email: faculty?.email,
         }).then(response => {
+            const facultyId = response.data.id;
+            uploadImage(facultyId);
             navigate(paths.FACULTIES);
-            uploadImage(faculty?.id);
             handleClickVariant('success', {vertical: 'top', horizontal: 'right'}, "Uspješno ažuriranje!")();
         }).catch(error => {
             handleClickVariant('error', {
@@ -183,7 +134,7 @@ function EditGeneralInfo() {
                             fontWeight: "bold",
                             marginLeft: "1%",
                             fontFamily: "openSans"
-                        }}>Izmijeni informacije</p>
+                        }}>Dodaj fakultet</p>
                         <Divider style={{
                             backgroundColor: "rgba(84,90,109,0.13)",
                             width: "100%",
@@ -198,8 +149,9 @@ function EditGeneralInfo() {
                                  height: "25%",
                                  width: "11%",
                                  marginLeft: "4%",
-                                 marginTop: "1.5%"
-                             }} onError={(e) => e.currentTarget.src = defaultLogoPath}/>
+                                 marginTop: "1.5%",
+                                 marginBottom: "2%"
+                             }}/>
                         <label style={{cursor: "pointer", marginTop: "1.7%"}}>
                             <BiSolidMessageSquareEdit style={{height: 28, width: 28, color: "rgba(54,150,171,0.66)"}}/>
                             <input type="file" style={{display: "none"}} onChange={handleFileChange}/>
@@ -221,7 +173,6 @@ function EditGeneralInfo() {
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
-                                    value={faculty?.name}
                                     margin="normal"
                                     required
                                     //@ts-ignore
@@ -234,7 +185,6 @@ function EditGeneralInfo() {
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
-                                    value={faculty?.address}
                                     margin="normal"
                                     required
                                     //@ts-ignore
@@ -249,7 +199,6 @@ function EditGeneralInfo() {
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
-                                    value={faculty?.city}
                                     margin="normal"
                                     required
                                     //@ts-ignore
@@ -262,7 +211,6 @@ function EditGeneralInfo() {
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
-                                    value={faculty?.country}
                                     margin="normal"
                                     required
                                     //@ts-ignore
@@ -277,7 +225,6 @@ function EditGeneralInfo() {
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
-                                    value={faculty?.phoneNumber}
                                     margin="normal"
                                     required
                                     //@ts-ignore
@@ -290,7 +237,6 @@ function EditGeneralInfo() {
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
-                                    value={faculty?.email}
                                     margin="normal"
                                     required
                                     //@ts-ignore
@@ -306,7 +252,6 @@ function EditGeneralInfo() {
                                         shrink: true,
                                     }}
                                     style={{maxWidth: "49.6%"}}
-                                    value={faculty?.website}
                                     margin="normal"
                                     required
                                     //@ts-ignore
@@ -344,4 +289,4 @@ function EditGeneralInfo() {
     )
 }
 
-export default EditGeneralInfo;
+export default InsertFacultyDialog;

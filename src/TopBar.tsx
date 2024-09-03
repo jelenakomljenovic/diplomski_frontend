@@ -4,14 +4,14 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import logo from '../src/assets/logo3.png';
 import blueLogo from '../src/assets/logo33.png';
-import textLogo from '../src/assets/textLogo.png';
+import textLogo from '../src/assets/tr.png';
 import blueTextLogo from '../src/assets/recolor_textLogo.png';
 import {IoIosArrowDown} from "react-icons/io";
 import {Box, CssBaseline, ListItemButton, ListItemText, MenuList, Slide, Theme, useScrollTrigger} from "@mui/material";
 import LockIcon from '@mui/icons-material/Lock';
 import {makeStyles} from "@mui/styles";
 import {paths} from "./constants/urlConstants";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {LoginDialog} from "./login/LoginDialog";
 import {AvatarButton} from "./components/avatar/AvatarButton";
 import {hasRole} from "./token/token";
@@ -27,13 +27,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-const paperProps = {
-    elevation: 0,
-    sx: {
-        overflow: 'visible',
-        filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-    },
-}
 
 export function TopBar() {
     const trigger = useScrollTrigger();
@@ -43,6 +36,10 @@ export function TopBar() {
     const [addPopup, setAddPopup] = useState(false);
     const [open, setOpen] = useState(false);
     const { isAdmin } = useAuth();
+    const location = useLocation();
+
+    const hoverColor = "rgba(99,135,145,0.82)";
+
 
 
     const onLockIconClick = async () => {
@@ -71,7 +68,7 @@ export function TopBar() {
                         <div style={{ display: "flex", alignItems: "center", width: "100%", justifyContent: "space-between" }}>
                             <div style={{ display: "flex", alignItems: "center" }}>
                                 <img src={logo} alt="logo" style={{ width: "auto", height: "auto" }} />
-                                <img src={textLogo} alt="textLogo" style={{ width: "140px", height: "40px", marginLeft: -7, marginTop: "0.3%" }} />
+                                <img src={textLogo} alt="textLogo" style={{ width: "140px", height: "22px", marginLeft: "3%", marginTop: "0.3%" }} />
                             </div>
                             <div style={{ display: "flex", alignItems: "center" }}>
                                 {isAdmin ? (
@@ -101,7 +98,7 @@ export function TopBar() {
                                             style={{ backgroundColor: "transparent"}}
                                             onClick={() => navigate(paths.HOME)}>
                                 <ListItemText disableTypography sx={{
-                                    color: "rgba(32,64,102,0.79)",
+                                    color: location.pathname === paths.HOME ? hoverColor : "rgba(32,64,102,0.79)",
                                     fontWeight: "bold",
                                     fontSize: 14,
                                     fontFamily: "roboto"
@@ -115,6 +112,9 @@ export function TopBar() {
                                                 minWidth: "12%",
                                                 backgroundColor: "transparent",
                                                 whiteSpace: 'normal',
+                                                '&:hover': {
+                                                    backgroundColor: 'transparent',
+                                                },
                                                 '@media (max-width: 900px)': {
                                                     marginLeft: "-1%",
                                                     marginRight: "1%",
@@ -123,30 +123,35 @@ export function TopBar() {
                                             onClick={() => navigate(paths.FACULTIES)}
                                             aria-haspopup="true">
                                 <ListItemText disableTypography style={{
-                                    color: "rgba(32,64,102,0.79)",
+                                    color: location.pathname === paths.FACULTIES ? hoverColor : "rgba(32,64,102,0.79)",
                                     fontWeight: "bold",
                                     fontSize: 14,
                                     fontFamily: "roboto"
                                 }} onClick={() => handleClick}>Fakulteti</ListItemText>
-                                <IoIosArrowDown style={{
-                                    color: "rgba(32,64,102,0.79)",
-                                    width: "15px",
-                                    height: "15px",
-                                    marginLeft: 6,
-                                    marginTop: 1.2
-                                }}/>
                             </ListItemButton>
                             <ListItemButton className={classes.nested}
                                             aria-owns={anchorEl ? "simple-menu" : undefined}
-                                            style={{paddingLeft: 24, backgroundColor: "transparent"}}
+                                            style={{paddingLeft: 18, backgroundColor: "transparent"}}
                                             onClick={() => navigate(paths.LOCATIONS)}
                                             aria-haspopup="true">
                                 <ListItemText disableTypography style={{
-                                    color: "rgba(32,64,102,0.79)",
+                                    color: location.pathname === paths.LOCATIONS ? hoverColor : "rgba(32,64,102,0.79)",
                                     fontWeight: "bold",
                                     fontSize: 14,
                                     fontFamily: "roboto"
                                 }} onClick={() => handleClick}>Fakulteti u blizini</ListItemText>
+                            </ListItemButton>
+                            <ListItemButton className={classes.nested}
+                                            aria-owns={anchorEl ? "simple-menu" : undefined}
+                                            style={{paddingLeft: 19, backgroundColor: "transparent"}}
+                                            onClick={() => navigate(paths.PREDICTION)}
+                                            aria-haspopup="true">
+                                <ListItemText disableTypography style={{
+                                    color:  location.pathname === paths.PREDICTION ? hoverColor : "rgba(32,64,102,0.79)",
+                                    fontWeight: "bold",
+                                    fontSize: 14,
+                                    fontFamily: "roboto"
+                                }} onClick={() => handleClick}>Upitnik</ListItemText>
                             </ListItemButton>
                         </MenuList>
                     </Toolbar>
@@ -169,82 +174,121 @@ export function TopBar() {
                                 marginBottom: "0.6%",
                                 paddingTop: "21px",
                                 marginLeft: "1.5%",
-                                width: "30%",
+                                width: "100%",
+                                overflowX: 'auto',
                                 '@media (max-width: 900px)': {
-                                    width: '100%',
                                     justifyContent: 'space-around',
                                 }
                             }}>
                                 <ListItemButton className={classes.nested}
                                                 sx={{
                                                     width: "auto",
-                                                    maxWidth: "150px",
+                                                    maxWidth: "140px",
                                                     whiteSpace: 'normal',
                                                     '@media (max-width: 900px)': {
                                                         marginLeft: "1%",
+                                                        maxWidth: "120px",
+                                                        flexShrink: 1,
                                                         marginRight: "1%",
+                                                    },
+                                                    '&:hover': {
+                                                        backgroundColor: 'transparent',
                                                     }
                                                 }}
                                                 onClick={() => navigate(paths.HOME)}>
                                     <ListItemText disableTypography sx={{
-                                        color: "white",
+                                        color: location.pathname === paths.HOME ? "lightgray" : "white",
                                         fontWeight: "bold",
-                                        fontSize: 13,
+                                        fontSize: 12,
                                         whiteSpace: 'normal',
                                     }}>Početna stranica</ListItemText>
                                 </ListItemButton>
+
                                 <ListItemButton className={classes.nested}
                                                 aria-owns={anchorEl ? "simple-menu" : undefined}
                                                 sx={{
                                                     marginRight: "0%",
                                                     width: "auto",
-                                                    maxWidth: "100px",
-                                                    minWidth: "12%",
+                                                    maxWidth: "120px",
+                                                    flexShrink: 1,
                                                     whiteSpace: 'normal',
                                                     '@media (max-width: 900px)': {
-                                                        marginLeft: "-7%",
+                                                        marginLeft: "-11%",
                                                         marginRight: "1%",
+                                                    },
+                                                    '&:hover': {
+                                                        backgroundColor: 'transparent',
                                                     }
                                                 }}
                                                 onClick={() => navigate(paths.FACULTIES)}
                                                 aria-haspopup="true">
                                     <ListItemText disableTypography sx={{
-                                        color: "white",
+                                        color: location.pathname === paths.FACULTIES ? "lightgray" : "white",
                                         fontWeight: "bold",
-                                        fontSize: 13,
+                                        fontSize: 12,
                                         whiteSpace: 'normal',
                                     }} onClick={() => handleClick}>Fakulteti</ListItemText>
-                                    {/*<IoIosArrowDown sx={{
-                                    color: "white",
-                                    width: "15px",
-                                    height: "15px",
-                                    marginLeft: "3%",
-                                    marginTop: 1.2
-                                }}/>*/}
                                 </ListItemButton>
+
                                 <ListItemButton className={classes.nested}
                                                 aria-owns={anchorEl ? "simple-menu" : undefined}
                                                 sx={{
+                                                    marginLeft: "-2%",
                                                     width: "auto",
+                                                    maxWidth: "140px",
                                                     whiteSpace: 'normal',
                                                     '@media (max-width: 900px)': {
                                                         marginLeft: "1%",
-                                                        // marginRight: "2%",
+                                                        maxWidth: "120px",
+                                                        flexShrink: 1,
+                                                    },
+                                                    '&:hover': {
+                                                        backgroundColor: 'transparent',
                                                     }
                                                 }}
                                                 onClick={() => navigate(paths.LOCATIONS)}
                                                 aria-haspopup="true">
                                     <ListItemText disableTypography sx={{
-                                        color: "white",
+                                        color: location.pathname === paths.LOCATIONS ? "lightgray" : "white",
                                         fontWeight: "bold",
-                                        fontSize: 13,
+                                        fontSize: 12,
                                         whiteSpace: 'normal',
                                     }} onClick={() => handleClick}>Fakulteti u blizini</ListItemText>
                                 </ListItemButton>
+
+                                <ListItemButton className={classes.nested}
+                                                aria-owns={anchorEl ? "simple-menu" : undefined}
+                                                sx={{
+                                                    width: "auto",
+                                                    maxWidth: "120px",
+                                                    flexShrink: 1,
+                                                    whiteSpace: 'normal',
+                                                    '@media (max-width: 900px)': {
+                                                        marginLeft: "1%",
+                                                    },
+                                                    '&:hover': {
+                                                        backgroundColor: 'transparent',
+                                                    }
+                                                }}
+                                                onClick={() => navigate(paths.PREDICTION)}
+                                                aria-haspopup="true">
+                                    <ListItemText disableTypography sx={{
+                                        color: location.pathname === paths.PREDICTION ? "lightgray" : "white",
+                                        fontWeight: "bold",
+                                        fontSize: 12,
+                                        whiteSpace: 'normal',
+                                    }} onClick={() => handleClick}>Upitnik</ListItemText>
+                                </ListItemButton>
                             </MenuList>
-                            <LockIcon
-                                sx={{ marginLeft: 'auto', height: 25, width: 25, color: "#fff", cursor: 'pointer' }}
-                                onClick={onLockIconClick} />
+
+                            {isAdmin ? (
+                                <AvatarButton />
+                            ) : (
+                                <LockIcon
+                                    sx={{ marginLeft: 'auto', height: 25, width: 25, color: "#fff", cursor: 'pointer' }}
+                                    onClick={onLockIconClick}
+                                />
+                            )}
                         </Box>
                     </Toolbar>
                 </AppBar>

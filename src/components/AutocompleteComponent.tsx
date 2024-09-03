@@ -61,7 +61,6 @@ export function AutocompleteComponent({
         >
             <Autocomplete
                 id={"select-label" + label}
-                // freeSolo={true}
                 defaultValue={defaultValue}
                 value={value ? value : defaultValue}
                 options={sortedOptions}
@@ -92,7 +91,6 @@ export function AutocompleteComponent({
                 )}
                 noOptionsText={"Nema rezultata"}
             />
-            {/*{error && <FormHelperText error={error}></FormHelperText>}*/}
         </FormControl>
     );
 }
