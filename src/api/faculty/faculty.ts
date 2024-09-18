@@ -14,5 +14,6 @@ export type CreateFacultyRequest = {
     email: string,
     coordinates: string,
     type: boolean,
-    logo: string
+    logo: string,
+    secondaryName: string
 }

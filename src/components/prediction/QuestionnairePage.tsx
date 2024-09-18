@@ -32,11 +32,11 @@ import {
 } from "../../api/jobprofile/jobprofileApi";
 import {
     drustveneNaukeOpcija1,
-    drustveneNaukeOpcija2,
+    drustveneNaukeOpcija2, drustveneNaukeOpcija3, drustveneNaukeOpcija4,
     prirodneNaukeOpcija1,
-    prirodneNaukeOpcija2,
+    prirodneNaukeOpcija2, prirodneNaukeOpcija4, prirodneNaukeOpcija5,
     tehnickeNaukeOpcija1,
-    tehnickeNaukeOpcija2
+    tehnickeNaukeOpcija2, tehnickeNaukeOpcija3, tehnickeNaukeOpcija4, tehnickeNaukeOpcija5
 } from "./options";
 import {JobProfileRequest, JobProfileSkillsRequest} from "../../api/jobprofile/jobprofile";
 import {BiSolidCloudDownload} from "react-icons/bi";
@@ -583,7 +583,7 @@ export default function QuestionnairePage() {
     useEffect(() => {
         let faculties = tehnickeNaukeOpcija1;
         if (formValues.interestFit === "ne uklapa se" || formValues.interestFit === "djelimicno se uklapa" || (formValues.interestFit === "u potpunosti se uklapa" && (formValues.highSchool === "Gimnazija" || formValues.highSchool === "Ostalo" || formValues.highSchool === "Ugostiteljsko-trgovinsko-turistička"))) {
-            if (formValues.additionalInterest === "Naučno-istraživački rad i primjena tehnologija") {
+            if (formValues.additionalInterest === "Naučno-istraživački rad i primjena tehnologija u prirodnim naukama") {
                 faculties = prirodneNaukeOpcija1;
             } else if (formValues.additionalInterest === "Upravljanje šumskim resursima, zaštita ekosistema i očuvanje biljnog i životinjskog svijeta") {
                 faculties = prirodneNaukeOpcija2;
@@ -595,26 +595,26 @@ export default function QuestionnairePage() {
                 faculties = tehnickeNaukeOpcija2;
             } else if (formValues.additionalInterest === "Razvoj i primjena finansijskih strategija, način funkcionisanja javnih institucija i administracijskih procesa kao i primjena zakona u društvu") {
                 faculties = drustveneNaukeOpcija1;
-            } else if (formValues.additionalInterest === "Književnost, umjetnost i društveni fenomeni") {
+            } else if (formValues.additionalInterest === "Jezici i književnost, umjetnost, sport ili društveni fenomeni") {
                 faculties = drustveneNaukeOpcija2;
             }
         } else {
             if (formValues.highSchool === "Građevinska") {
                 faculties = tehnickeNaukeOpcija2;
             } else if (formValues.highSchool === "Ekonomska") {
-                faculties = drustveneNaukeOpcija1;
+                faculties = drustveneNaukeOpcija4;
             } else if (formValues.highSchool === "Elektrotehnička") {
-                faculties = tehnickeNaukeOpcija1;
+                faculties = tehnickeNaukeOpcija5;
             } else if (formValues.highSchool === "Medicinska") {
-                faculties = prirodneNaukeOpcija1;
+                faculties = prirodneNaukeOpcija5;
             } else if (formValues.highSchool === "Poljoprivredna") {
-                faculties = prirodneNaukeOpcija2;
+                faculties = prirodneNaukeOpcija4;
             } else if (formValues.highSchool === "Tehnička") {
-                faculties = tehnickeNaukeOpcija1;
+                faculties = tehnickeNaukeOpcija4;
             } else if (formValues.highSchool === "Tehnološka") {
-                faculties = tehnickeNaukeOpcija1;
+                faculties = tehnickeNaukeOpcija3;
             } else if (formValues.highSchool === "Muzička") {
-                faculties = drustveneNaukeOpcija2;
+                faculties = drustveneNaukeOpcija3;
             }
         }
         fetchResponsibilities({
@@ -623,27 +623,10 @@ export default function QuestionnairePage() {
         }, {faculties: faculties, num_skills: 15});
     }, [formValues.interestFit, formValues.additionalInterest]);
 
-    const faculties = [
-        {
-            id: 1,
-            name: 'University of Banja Luka',
-            coordinates: '44.779150614923346, 17.198506568451887',
-        },
-        {
-            id: 2,
-            name: 'University of East Sarajevo',
-            coordinates: '44.76688431955418, 17.1869570396156',
-        },
-        {
-            id: 3,
-            name: 'University of Sarajevo',
-            coordinates: '44.764819938972046, 17.198152539615556',
-        },
-    ];
-
     const findFacultyByName = (name: string): CreateFacultyRequest | undefined => {
+        console.log(universitiesByCity)
         const exactMatch = universitiesByCity.find(
-            (university) => university.name === name && university.city === formValues.address
+            (university) => university.name === name  && university.city === formValues.address
         );
 
         if (exactMatch) {
@@ -652,7 +635,7 @@ export default function QuestionnairePage() {
 
         const partialMatch = universitiesByCity.find(
             (university) =>
-                university.name.toLowerCase().startsWith(name.substring(0, 5).toLowerCase()) &&
+                university.secondaryName === name &&
                 university.city === formValues.address
         );
 
@@ -1272,13 +1255,13 @@ export default function QuestionnairePage() {
                                                             <FormControlLabel
                                                                 control={
                                                                     <Checkbox
-                                                                        checked={formValues.additionalInterest === 'Naučno-istraživački rad i primjena tehnologija'}
+                                                                        checked={formValues.additionalInterest === 'Naučno-istraživački rad i primjena tehnologija u prirodnim naukama'}
                                                                         onChange={handleAdditionalInterestChange}
                                                                         name="additionalInterest"
-                                                                        value="Naučno-istraživački rad i primjena tehnologija"
+                                                                        value="Naučno-istraživački rad i primjena tehnologija u prirodnim naukama"
                                                                     />
                                                                 }
-                                                                label="Naučno-istraživački rad i primjena tehnologija"
+                                                                label="Naučno-istraživački rad i primjena tehnologija u prirodnim naukama"
                                                             />
                                                             <FormControlLabel
                                                                 control={
@@ -1316,13 +1299,13 @@ export default function QuestionnairePage() {
                                                             <FormControlLabel
                                                                 control={
                                                                     <Checkbox
-                                                                        checked={formValues.additionalInterest === 'Književnost, umjetnost i društveni fenomeni'}
+                                                                        checked={formValues.additionalInterest === 'Jezici i književnost, umjetnost, sport ili društveni fenomeni'}
                                                                         onChange={handleAdditionalInterestChange}
                                                                         name="additionalInterest"
-                                                                        value="Književnost, umjetnost i društveni fenomeni"
+                                                                        value="Jezici i književnost, umjetnost, sport ili društveni fenomeni"
                                                                     />
                                                                 }
-                                                                label="Književnost, umjetnost i društveni fenomeni"
+                                                                label="Jezici i književnost, umjetnost, sport ili društveni fenomeni"
                                                             />
                                                             {errors.additionalInterest && (
                                                                 <Typography variant="body2" color="error">
@@ -1474,17 +1457,19 @@ export default function QuestionnairePage() {
                                             </Typography>
                                             <div className="checkbox-container">
                                                 <h3>Vještine</h3>
-                                                {skills1.map((option, index) => (
-                                                    <label className="checkbox-item" key={index}>
-                                                        <input
-                                                            type="checkbox"
-                                                            value={index}
-                                                            checked={checkedSkills.includes(index)}
-                                                            onChange={() => handleCheckboxSkillsChange(index)}
-                                                            disabled={!checkedSkills.includes(index) && checkedSkills.length >= 5}
-                                                        /> {option}
-                                                    </label>
-                                                ))}
+                                                {skills1
+                                                    .filter(option => option.trim() !== '')
+                                                    .map((option, index) => (
+                                                        <label className="checkbox-item" key={index}>
+                                                            <input
+                                                                type="checkbox"
+                                                                value={index}
+                                                                checked={checkedSkills.includes(index)}
+                                                                onChange={() => handleCheckboxSkillsChange(index)}
+                                                                disabled={!checkedSkills.includes(index) && checkedSkills.length >= 5}
+                                                            /> {option}
+                                                        </label>
+                                                    ))}
                                             </div>
                                         </>
                                     </>

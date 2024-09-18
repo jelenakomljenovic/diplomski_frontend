@@ -99,7 +99,7 @@ function InsertFacultyDialog() {
             const facultyId = response.data.id;
             uploadImage(facultyId);
             navigate(paths.FACULTIES);
-            handleClickVariant('success', {vertical: 'top', horizontal: 'right'}, "Uspješno ažuriranje!")();
+            handleClickVariant('success', {vertical: 'top', horizontal: 'right'}, "Uspješno dodavanje fakulteta!")();
         }).catch(error => {
             handleClickVariant('error', {
                 vertical: 'top',

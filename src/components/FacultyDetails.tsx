@@ -3,7 +3,6 @@ import * as React from 'react';
 import {useEffect, useState} from 'react';
 import {Divider, Menu, MenuItem, MenuProps, Snackbar} from "@mui/material";
 import {FaLink, FaLocationDot, FaPhone} from "react-icons/fa6";
-import university from "../assets/university.png";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {CreateFacultyRequest} from "../api/faculty/faculty";
 import {getUniversityById} from "../api/faculty/facultyApi";
@@ -151,6 +150,7 @@ function FacultyDetails() {
         const getDepartments = async () => {
             const departmentsRes = await getAllDepartments(numId);
             setDepartments(departmentsRes.data);
+            console.log("deee", departmentsRes.data)
         }
         getDepartments();
     }, [id])
@@ -210,8 +210,6 @@ function FacultyDetails() {
             setDepartmentIdForDelete(selectedDepartment?.id);
         }
     }, [open, selectedDepartment])
-
-
 
 
     return (
@@ -311,50 +309,56 @@ function FacultyDetails() {
                     )}
                     <div className="container">
                         {departments.map((department: any) => (
-                        <div key={department.id} className="department-card">
-                            <div className="header">
-                                <div style={{flexGrow: 1, marginRight: '20px'}}>
-                                    <p className="title1">{department.name}</p>
-                                </div>
-                                <div className="icon-container">
-                                    <AppsIcon data-department-id={department?.id}
-                                              style={{color: "rgba(55, 79, 121, 0.71)"}} onClick={handleClick}/>
-                                </div>
-                                {isAdmin &&
-                                    <StyledMenu
-                                        id="demo-customized-menu"
-                                        MenuListProps={{
-                                            'aria-labelledby': 'demo-customized-button',
-                                        }}
-                                        anchorEl={anchorEl}
-                                        keepMounted
-                                        open={Boolean(anchorEl)}
-                                        onClose={handleClose}
-                                    >
-                                        <MenuItem
-                                            onClick={() => {
-                                                handleClose();
-                                                setOpenUpdateDepartmentPopup(true);
+                            <div key={department.id} className="department-card">
+                                <div className="header">
+                                    <div style={{flexGrow: 1, marginRight: '20px'}}>
+                                        {department.website ? (
+                                            <a href={department.website} target="_blank" rel="noopener noreferrer" className="title1" style={{textDecoration: "none"}}>
+                                                {department.name}
+                                            </a>
+                                        ) : (
+                                            <p className="title1">{department.name}</p>
+                                        )}
+                                    </div>
+                                    <div className="icon-container">
+                                        <AppsIcon data-department-id={department?.id}
+                                                  style={{color: "rgba(55, 79, 121, 0.71)"}} onClick={handleClick}/>
+                                    </div>
+                                    {isAdmin &&
+                                        <StyledMenu
+                                            id="demo-customized-menu"
+                                            MenuListProps={{
+                                                'aria-labelledby': 'demo-customized-button',
                                             }}
-                                        ><UpdateOutlined/>Update</MenuItem>
-                                        <MenuItem onClick={() => {
-                                            handleClose();
-                                            handleClickOpen();
-                                        }}><DeleteOutline/>Delete</MenuItem>
-                                    </StyledMenu>
-                                }
-                            </div>
-                            <div>
-                                <p className="description">Na ovom studijskom programu postoje sljedeći
-                                    smjerovi:</p>
-                                <div className="grid-container-department">
-                                    {department.majors && department.majors.map((major: any) => (
-                                        <p key={major.id} className="sub-item"><Stop
-                                            className="sub-item-icon"/>{major.name}</p>
-                                    ))}
+                                            anchorEl={anchorEl}
+                                            keepMounted
+                                            open={Boolean(anchorEl)}
+                                            onClose={handleClose}
+                                        >
+                                            <MenuItem
+                                                onClick={() => {
+                                                    handleClose();
+                                                    setOpenUpdateDepartmentPopup(true);
+                                                }}
+                                            ><UpdateOutlined/>Update</MenuItem>
+                                            <MenuItem onClick={() => {
+                                                handleClose();
+                                                handleClickOpen();
+                                            }}><DeleteOutline/>Delete</MenuItem>
+                                        </StyledMenu>
+                                    }
+                                </div>
+                                <div>
+                                    <p className="description">Na ovom studijskom programu postoje sljedeći
+                                        smjerovi:</p>
+                                    <div className="grid-container-department">
+                                        {department.majors && department.majors.map((major: any) => (
+                                            <p key={major.id} className="sub-item"><Stop
+                                                className="sub-item-icon"/>{major.name}</p>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         ))}
                     </div>
                 </div>

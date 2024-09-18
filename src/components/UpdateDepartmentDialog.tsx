@@ -37,6 +37,7 @@ export function UpdateDepartmentDialog({
                                            fetchDepartments
                                        }: UpdateDialogProps) {
     const [departmentId, setDepartmentId] = useState<number | undefined>(-1);
+    const [website, setWebsite] = useState<string | undefined>("");
     const [departmentName, setDepartmentName] = useState<string | undefined>("");
     const [majorValue, setMajorValue] = useState<string | undefined>('');
     const handleClickVariant = useSnackbarHelper();
@@ -48,6 +49,7 @@ export function UpdateDepartmentDialog({
     useEffect(() => {
         if (openUpdateDepartmentPopup) {
             setDepartmentName(department?.name);
+            setWebsite(department?.website);
             setMajorValue(department?.majors.map((item: any) => item.name).join(', '));
             setDepartmentId(department?.id);
         }
@@ -76,10 +78,12 @@ export function UpdateDepartmentDialog({
                     const updatedDepartment = await updateDepartment(departmentId, {
                         name: departmentName,
                         university: university,
+                        website: website,
                         majors: names
                     });
                     setOpenUpdateDepartmentPopup(false);
                     setDepartmentName('');
+                    setWebsite('');
                     setMajorValue('');
                     fetchDepartments();
                 } catch (e) {
@@ -94,6 +98,7 @@ export function UpdateDepartmentDialog({
         setOpenUpdateDepartmentPopup(false);
         setDepartmentName('');
         setMajorValue('');
+        setWebsite('');
         setErrors(prev => ({...prev, departmentName: false, majorNames: false}));
     }
 
@@ -109,14 +114,21 @@ export function UpdateDepartmentDialog({
                     <FormControl required>
                         <TextField className='text-field' name="departmentName" label="Naziv studijskog programa"
                                    value={departmentName}
-                                   variant="outlined" inputProps={{maxLength: 50}}
+                                   variant="outlined" inputProps={{maxLength: 150}}
                                    onChange={(e) => setDepartmentName(e.target.value)}/>
                         {errors.departmentName &&
                             <FormHelperText error>Naziv studijskog programa je obavezan!</FormHelperText>}
                         <div className="text-field-div">
+                            <TextField className='text-field' name="departmentWebsite"
+                                       label="Web sajt studijskog programa"
+                                       value={website}
+                                       variant="outlined" inputProps={{maxLength: 350}}
+                                       onChange={(e) => setWebsite(e.target.value)}/>
+                        </div>
+                        <div className="text-field-div">
                             <TextField multiline className='text-field' name="majorNames" label="Smjerovi"
                                        value={majorValue}
-                                       variant="outlined" inputProps={{maxLength: 150}}
+                                       variant="outlined" inputProps={{maxLength: 350}}
                                        onChange={(e) => setMajorValue(e.target.value)}/>
                             {errors.majorNames && <FormHelperText error>Smjerovi su obavezni!</FormHelperText>}
                         </div>
@@ -124,10 +136,10 @@ export function UpdateDepartmentDialog({
                 </DialogContent>
                 <DialogActions>
                     <Button size="small" variant={"outlined"} color={"error"}
-                            style={{marginTop: "-5%", marginBottom: "2%"}}
+                            style={{marginTop: "0%", marginBottom: "2%"}}
                             onClick={handleCancelButton}>Poništi</Button>
                     <Button size="small" variant={"outlined"} color={"success"}
-                            style={{marginTop: "-5%", marginBottom: "2%", marginRight: "5%"}}
+                            style={{marginTop: "0%", marginBottom: "2%", marginRight: "5%"}}
                             onClick={handleSaveButton}>Potvrdi</Button>
                 </DialogActions>
             </Dialog>

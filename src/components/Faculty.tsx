@@ -375,21 +375,22 @@ function Faculty() {
                                 </Typography>
                                 <Box
                                     sx={{
+                                        minWidth: "40%",
                                         display: 'flex',
                                         flexDirection: "row",
                                         flexWrap: 'nowrap',
                                     }}
                                 >
                                     {countriesFilter.map((countryFilter, index) => (
-                                        <ListItem key={index} style={{flexBasis: 'auto', margin: '0 5px'}}>
+                                        <Grid item key={index} sx={{ display: 'flex', alignItems: 'center', margin: '12px 21px' }}>
                                             <Checkbox
                                                 checked={countryFilter.isChecked}
                                                 edge="start"
                                                 size="small"
                                                 onChange={() => handleCountryCheckBox(countryFilter)}
                                             />
-                                            <ListItemText primary={countryFilter.country}/>
-                                        </ListItem>
+                                            <ListItemText primary={countryFilter.country} />
+                                        </Grid>
                                     ))}
                                 </Box>
                             </Box>

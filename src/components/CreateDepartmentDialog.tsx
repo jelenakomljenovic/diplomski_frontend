@@ -36,6 +36,7 @@ export function CreateDepartmentDialog({
                                        }: CreateDialogProps) {
     const [departmentName, setDepartmentName] = useState('');
     const [majorNames, setMajorNames] = useState('');
+    const [website, setWebsite] = useState('');
     const [errors, setErrors] = useState({
         departmentName: false,
         majorNames: false
@@ -73,7 +74,8 @@ export function CreateDepartmentDialog({
                 const response = await insertDepartment({
                     name: departmentName,
                     university: university,
-                    majors: names
+                    majors: names,
+                    website: website
                 });
                 addDepartment(response.data);
                 setOpenAddDepartmentPopup(false);
@@ -89,6 +91,7 @@ export function CreateDepartmentDialog({
         setOpenAddDepartmentPopup(false);
         setDepartmentName('');
         setMajorNames('');
+        setWebsite('');
         setErrors(prev => ({ ...prev, departmentName: false, majorNames: false }));
     }
 
@@ -112,11 +115,21 @@ export function CreateDepartmentDialog({
                             name="departmentName"
                             label="Naziv studijskog programa"
                             variant="outlined"
-                            inputProps={{ maxLength: 50 }}
+                            inputProps={{ maxLength: 90 }}
                             onChange={(e) => setDepartmentName(e.target.value)}
                         />
                         {errors.departmentName &&
                             <FormHelperText error>Naziv studijskog programa je obavezan!</FormHelperText>}
+                        <div className="text-field-div">
+                            <TextField
+                                className='text-field'
+                                name="departmentWebsite"
+                                label="Web sajt studijskog programa"
+                                variant="outlined"
+                                inputProps={{ maxLength: 350 }}
+                                onChange={(e) => setWebsite(e.target.value)}
+                            />
+                        </div>
                         <div className="text-field-div">
                             <TextField
                                 multiline
@@ -124,7 +137,7 @@ export function CreateDepartmentDialog({
                                 name="majorNames"
                                 label="Smjerovi razdvojeni zarezom"
                                 variant="outlined"
-                                inputProps={{ maxLength: 150 }}
+                                inputProps={{ maxLength: 350 }}
                                 onChange={(e) => setMajorNames(e.target.value)}
                             />
                             {errors.majorNames && <FormHelperText error>Smjerovi su obavezni!</FormHelperText>}
@@ -132,9 +145,9 @@ export function CreateDepartmentDialog({
                     </FormControl>
                 </DialogContent>
                 <DialogActions>
-                    <Button style={{ marginTop: "-5%", marginBottom: "2%" }} size="small" variant={"outlined"} color={"error"}
+                    <Button style={{ marginTop: "0%", marginBottom: "2%" }} size="small" variant={"outlined"} color={"error"}
                             onClick={handleCancelButton}>Poništi</Button>
-                    <Button style={{ marginTop: "-5%", marginBottom: "2%", marginRight: "5%" }} size="small" variant={"outlined"} color={"success"}
+                    <Button style={{ marginTop: "0%", marginBottom: "2%", marginRight: "5%" }} size="small" variant={"outlined"} color={"success"}
                             onClick={handleSaveButton}>Potvrdi</Button>
                 </DialogActions>
             </Dialog>
